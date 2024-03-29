@@ -1,6 +1,7 @@
 * {
   font-family: "Roboto", sans-serif;
   /* box-sizing: border-box; */
+  margin: 0px;
 }
 
 a {
@@ -12,6 +13,9 @@ a {
   --main-color: #9356dc;
   --main-bg-color: #f3f3f3;
   --filter-bg-color: #deebff;
+  --primary-color: #9356dc;
+  --secondary-color: #ff79da;
+  --tertiary-color: #99e2d0;
   /* #9356DC violet, primaire
   #FF79DA rose, secondaire
   #99E2D0 vert léger, tertiaire
