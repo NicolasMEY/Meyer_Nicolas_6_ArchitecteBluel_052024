@@ -1,0 +1,239 @@
+// <!-- HEADER -->
+
+.header {
+    padding: 2%;
+  
+    &__logo {
+        margin: 0;
+        font-size: 32px;
+        text-align: center;
+        font-family: shrikhand;
+      }
+
+    &__returnarrow {
+        position: absolute;
+        padding-top: 10px;
+        font-size: 20px;
+        color: #353535;
+    }
+}
+
+
+// <!-- MENU -->
+
+.page-restaurant-image {
+    position: relative;
+    width: 100%;
+    height: 275px;
+
+    // @include desktop-responsive {
+    //     height: 400px;
+    // }
+
+    & img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+}
+
+.menu {
+    position: relative;
+    top: -20px;
+    background-color: #f6f6f6;
+    border-radius: 25px 25px 0px 0px;
+
+    &__headind {
+        display: flex;
+        align-items: center;
+
+        & h2 {
+            width: 87%;
+            font-family: 'Shrikhand', cursive;
+            // @include cursive-heading;
+        }
+    }
+
+// .button-like {
+//         color: rgb(109, 104, 104);
+//         background-color: transparent;
+//         border: none;
+//         font-size: 24px;
+//         cursor: pointer;
+//       }
+
+
+    &__button-order {
+        display: flex;
+        justify-content: center;
+    }
+}
+
+.button-gradient {
+        border-radius: 50px;
+        color: white;
+        background: linear-gradient(#ff79da, #9356dc);
+        font-size: 16px;
+        margin: 30px 0px;
+        padding: 10px 20px;
+        height: 50px;
+        border: none;
+        box-shadow: 0px 4px 10px 0px rgb(166, 133, 133);
+        cursor: pointer;
+        transition: 300ms ease-in-out;
+      
+        &__:hover {
+            opacity: 0.8;
+            box-shadow: 0px 4px 15px 2px rgb(166, 133, 133);
+            }
+    }
+
+
+.course-list {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    &__heading {
+        position: relative;
+        margin: 4% 0% 2% 0%;
+        padding: 10px 0px;
+        font-size: 18px;
+        text-transform: uppercase;
+        // écrit en majuscule
+        border-bottom: solid 2px #99E2D0;
+        // width: 40px;
+    }
+}
+
+.course-card {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin: 10px 0px;
+    padding: 0;
+    background-color: white;
+    border-radius: 15px;
+    box-shadow: 0px 4px 15px 0px #d5d5d5;
+    overflow: hidden;
+    cursor: pointer;
+
+   &__info {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin: 2%;
+    gap: 2%;
+    white-space: nowrap;
+    // passages à la ligne automatique supprimés
+    overflow: hidden;
+    text-overflow: ellipsis;
+    // couper la fin des mots avec 3...
+   }
+
+   &__description {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 100%;
+    padding: 5px;
+
+        & h4 {
+            margin: 0;
+            font-size: 16px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        & p {
+            margin: 0;
+            font-size: 15px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+    }
+
+    &__price {
+        display: flex;
+        align-items: flex-end;
+        width: 15%;
+        padding: 5px;
+
+        & p {
+            margin: 0;
+        }
+    }
+
+    &__select-button {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: auto;
+        width: 20%;
+        margin-right: -20%;
+        border-radius: 0px 15px 15px 0px;
+        background-color: #99E2D0;
+    }
+}
+
+
+// <!-- FOOTER -->
+
+footer {
+    width: 100%;
+    padding: 16px;
+    background-color: #353535;
+    // essayer background-color: darken($white, 75%);
+    color: white;
+
+
+    &__heading {
+        margin: 0px 0px 10px 0px;
+        font-family: 'Shrikhand';
+        font-size: 18px;
+    }
+  
+    &__nav {
+        display: flex;
+        align-items: none;
+        font-size: 16px;
+    
+        & p {
+            padding-top: 5px;
+            }
+
+        &__icons {
+            margin-right: 15px;
+            padding-top: 15px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 11px;
+            height: 13px;
+            color: white;
+        }
+    }
+    
+    &__info {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        font-size: 16px;
+        padding-top: 10px;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+

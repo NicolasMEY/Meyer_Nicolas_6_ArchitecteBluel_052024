@@ -1,0 +1,27 @@
+
+/* General */
+
+* {
+    font-family: 'Roboto', sans-serif;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+  }
+
+  /* General font text */
+
+  $font-weight: (
+    light: 300,
+    regular: 400,
+    medium: 500,
+    bold: 700,
+  );
+
+  /* Heading */
+
+  @mixin cursive-heading {
+    font-size: 27px;
+    font-family: 'Shrikhand', cursive;
+  }

@@ -1,0 +1,45 @@
+.button-gradient {
+    margin: 30px 0px;
+    padding: 10px 20px;
+    height: 50px;
+    border: none;
+    border-radius: 50px;
+    @include gradient;
+    // background: linear-gradient(#ff79da, #9356dc);
+    color: white;
+    font-size: 16px;
+    @include box-shadow;
+    // box-shadow: 0px 4px 10px 0px rgb(166, 133, 133);
+    cursor: pointer;
+    transition: 300ms ease-in-out;
+  
+    &:hover {
+        opacity: 0.8;
+        box-shadow: 0px 4px 15px 2px rgb(166, 133, 133);
+    }
+}
+
+.button-like {
+    color: rgb(109, 104, 104);
+    background-color: transparent;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+  }
+  
+.animheartsolid {
+    position: absolute;
+    opacity: 0;
+    transition: all 800ms ease;
+  
+    &:hover {
+        opacity: 1;
+        background-clip: text;
+        font-size: 26px;
+        -webkit-background-clip: text;
+        /* necessaire pour le navigateur chrome */
+        color: transparent;
+        @include gradient;
+        // background-image: linear-gradient(#9356dc, #ff79da);
+    }
+}

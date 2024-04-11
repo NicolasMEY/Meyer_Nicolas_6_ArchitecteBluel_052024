@@ -1,0 +1,28 @@
+
+
+
+/* Gradient */
+@mixin gradient {
+    background-image: linear-gradient(#9356dc, #ff79da);
+}
+
+
+
+/* Shadow */
+@mixin box-shadow ($color: $shadow) {
+    box-shadow: 0px 4px 15px 0px $shadow;
+}
+
+/* Responsive */
+
+@mixin tablet-responsive {
+    @media screen and (min-width: ($breakpoints, tablet))
+}
+
+
+
+
+
+@mixin desktop-responsive {
+    @media screen and (min-width: ($breakpoints, desktop))
+}
