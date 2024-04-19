@@ -1,0 +1,29 @@
+/* <!-- LOADER --> */
+
+@keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+
+  
+  @keyframes flash {
+    0% {
+        color: $color-primary;
+        text-shadow: 0 0 7px $color-primary;
+    }
+    90% {
+        color: $color-secondary;
+        text-shadow: none;
+    }
+    100% {
+        color: $color-primary;
+        text-shadow: 0 0 7px $color-primary;
+    }
+}
+
+/* <!-- DISHES APPEAR --> */
+

@@ -9,6 +9,109 @@ a {
   color: inherit;
 }
 
+.loader {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 100%;
+  height: 210%;
+  background-color: white;
+  opacity: 0.92;
+  z-index: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* *************** penser à mettre le loader en dessous en media queri**********************
+  */
+
+.loader-quart {
+  position: relative;
+  width: 60px;
+  height: 60px;
+  margin-bottom: 150px;
+  margin-right: 40px;
+  border-radius: 50px;
+  border: 6px solid #9356dc;
+  opacity: 0.8;
+}
+
+.loader-quart:after {
+  position: absolute;
+  top: -6px;
+  left: -6px;
+  right: -6px;
+  bottom: -6px;
+  content: "";
+  border: 6px solid transparent;
+  border-radius: 50px;
+  border-top-color: #99e2d0;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.letter {
+  color: #ff79da;
+  font-size: 80px;
+  letter-spacing: 15px;
+  margin-bottom: 150px;
+  animation: flash 1.2s linear 3s infinite;
+}
+
+@keyframes flash {
+  0% {
+    color: #9356dc;
+    text-shadow: 0 0 7px #9356dc;
+  }
+  90% {
+    color: #ff79da;
+    text-shadow: none;
+  }
+  99% {
+    color: #9356dc;
+    text-shadow: 0 0 7px #9356dc;
+    z-index: 21;
+  }
+  100% {
+    /*faire disparaitre l'animation sur la fin*/
+    opacity: 0;
+    z-index: -1;
+  }
+}
+
+.letter:nth-child(1) {
+  animation-delay: 0.1s;
+}
+.letter:nth-child(2) {
+  animation-delay: 0.2s;
+}
+.letter:nth-child(3) {
+  animation-delay: 0.3s;
+}
+.letter:nth-child(4) {
+  animation-delay: 0.4s;
+}
+.letter:nth-child(5) {
+  animation-delay: 0.5s;
+}
+.letter:nth-child(6) {
+  animation-delay: 0.6s;
+}
+.letter:nth-child(7) {
+  animation-delay: 0.7s;
+}
+
 /* <!-- HEADER --> */
 
 .header {
@@ -23,7 +126,6 @@ a {
 }
 
 /* <!-- INFO-LOCALISATION --> */
-
 .info-localisation {
   position: relative;
   display: flex;
@@ -68,7 +170,7 @@ a {
   background: linear-gradient(#ff79da, #9356dc);
   font-size: 16px;
   margin: 30px 0px;
-  padding: 10px 20px;
+  padding: 10px 50px;
   height: 50px;
   border: none;
   box-shadow: 0px 4px 10px 0px rgb(166, 133, 133);
@@ -229,32 +331,32 @@ a {
   position: absolute;
   bottom: 10%;
   right: 5%;
+  padding-right: 20px;
+  padding-bottom: 25px;
 }
 
 .button-like {
-  color: rgb(109, 104, 104);
   background-color: transparent;
   border: none;
-  font-size: 24px;
   cursor: pointer;
+  font-size: 24px;
+}
+
+.button-like i {
+  position: absolute;
 }
 
 .animheartsolid {
-  position: absolute;
   opacity: 0;
-  transition: all 800ms ease;
+  transition: all 500ms ease-in-out;
 }
 
 .animheartsolid:hover {
   opacity: 1;
-  background-clip: text;
-  font-size: 26px;
-  -webkit-background-clip: text;
-  /* necessaire pour le navigateur chrome */
   color: transparent;
   background-image: linear-gradient(#9356dc, #ff79da);
+  background-clip: text;
 }
-
 /* <!-- FOOTER --> */
 
 footer {
