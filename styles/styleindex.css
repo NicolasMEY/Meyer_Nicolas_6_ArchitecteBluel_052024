@@ -10,19 +10,20 @@ a {
 }
 
 .loader {
-  position: absolute;
+  position: fixed;
   left: 0;
   right: 0;
   top: 0;
   bottom: 0;
   width: 100%;
-  height: 210%;
+  height: 100%;
   background-color: white;
   opacity: 0.92;
   z-index: 1;
   display: flex;
   justify-content: center;
   align-items: center;
+  animation: disappear 3s linear 1s 1 forwards;
 }
 
 /* *************** penser à mettre le loader en dessous en media queri**********************
@@ -81,7 +82,6 @@ a {
   99% {
     color: #9356dc;
     text-shadow: 0 0 7px #9356dc;
-    z-index: 21;
   }
   100% {
     /*faire disparaitre l'animation sur la fin*/
@@ -110,6 +110,19 @@ a {
 }
 .letter:nth-child(7) {
   animation-delay: 0.7s;
+}
+
+@keyframes disappear {
+  0% {
+    opacity: 1;
+  }
+  99% {
+    z-index: 1;
+  }
+  100% {
+    opacity: 0;
+    z-index: -20;
+  }
 }
 
 /* <!-- HEADER --> */

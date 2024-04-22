@@ -1,17 +1,4 @@
-@import "utils/variables";
-@import "utils/mixins";
-@import "utils/animations";
-@import "base/boxsizing";
-@import "base/typographie";
-@import "components/buttons";
-@import "components/loading-spinner";
-@import "layout/body";
-@import "layout/header";
-@import "layout/footer";
-@import "pages/index";
-@import "pages/page-menu";
-
-************************************** * {
+* {
   font-family: "Roboto", sans-serif;
   box-sizing: border-box;
   margin: 0px;
@@ -394,10 +381,14 @@ a {
 }
 
 .fade-in--1delay {
-  animation: fade-in 2s 1000ms both;
+  animation: fade-in 2s 500ms both;
 }
 
 .fade-in--2delay {
+  animation: fade-in 2s 1000ms both;
+}
+
+.fade-in--3delay {
   animation: fade-in 2s 1500ms both;
 }
 
@@ -610,7 +601,9 @@ a {
   max-width: 250px;
 } */
 
-*********************************** footer {
+/* <!-- FOOTER --> */
+
+footer {
   width: 100%;
   padding: 16px;
   background-color: #353535;
