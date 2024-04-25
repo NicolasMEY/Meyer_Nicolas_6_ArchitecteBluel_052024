@@ -21,9 +21,9 @@ a {
   opacity: 0.92;
   z-index: 1;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-  animation: disappear 3s linear 1s 1 forwards;
 }
 
 /* *************** penser à mettre le loader en dessous en media queri**********************
@@ -31,10 +31,10 @@ a {
 
 .loader-quart {
   position: relative;
+  display: block;
   width: 60px;
   height: 60px;
   margin-bottom: 150px;
-  margin-right: 40px;
   border-radius: 50px;
   border: 6px solid #9356dc;
   opacity: 0.8;

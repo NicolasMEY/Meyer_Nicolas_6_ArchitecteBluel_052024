@@ -1,5 +1,5 @@
 
-/* General */
+/* <!-- GENERAL --> */
 
 * {
     font-family: 'Roboto', sans-serif;
@@ -10,7 +10,7 @@ a {
     color: inherit;
   }
 
-  /* General font text */
+  /* <!-- GENERAL FONT TEXT --> */
 
   $font-weight: (
     light: 300,
@@ -19,9 +19,8 @@ a {
     bold: 700,
   );
 
-  /* Heading */
+  /* <!-- HEADING --> */
 
   @mixin cursive-heading {
-    font-size: 27px;
-    font-family: 'Shrikhand', cursive;
+    font-family:'Shrikhand';
   }

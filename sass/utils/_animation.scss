@@ -25,5 +25,43 @@
     }
 }
 
-/* <!-- DISHES APPEAR --> */
+@keyframes disappear {
+  0% {
+    opacity: 1;
+  }
+  99% {
+    z-index: 1;
+  }
+  100% {
+    opacity: 0;
+    z-index: -20;
+  }
+}
 
+/* <!-- FADE-IN-PAGE-MENU --> */
+
+@keyframes fade-in {
+  0% {
+    transform: translateY(50px);
+    opacity: 0;
+  }
+  75% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(0px);
+    animation-timing-function: ease-in-out;
+  }
+}
+
+.fade-in--1delay {
+  animation: fade-in 2s 0ms both;
+}
+
+.fade-in--2delay {
+  animation: fade-in 2s 1000ms both;
+}
+
+.fade-in--3delay {
+  animation: fade-in 2s 1500ms both;
+}

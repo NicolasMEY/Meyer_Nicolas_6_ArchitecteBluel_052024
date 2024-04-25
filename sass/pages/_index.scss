@@ -20,9 +20,8 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  /* margin: auto >>> à tester */
   padding: 20px 0px;
-  background-color: #f6f6f6;
+  background-color: darken($white, 4%);
   text-align: center;
 
   &__heading {
@@ -34,10 +33,10 @@
       margin-bottom: 25px;
     }
 
-    @include desktop-reponsive {
+    @include desktop-responsive {
       font-size: 40px;
       margin-bottom: 20px;
-    }
+     }
   }
 
   & p {
@@ -50,15 +49,14 @@
 /* <!-- OPERATION --> */
 
 .explain-operation {
-  /* margin: auto; */
   padding: 50px 0px;
 
   &__heading {
     margin: 10px 0px;
-    padding-left: 15px;
+    padding-left: 3%;
 
     @include tablet-responsive {
-      padding-left: 110px;
+      padding-left: 8%;
     }
   }
 
@@ -70,7 +68,7 @@
     padding-bottom: 20px;
     margin: auto;
 
-    @include desktop-reponsive {
+    @include tablet-responsive {
       flex-direction: row;
       justify-content: space-around;
       width: 85%;
@@ -84,7 +82,7 @@
   height: 70px;
   gap: 4%;
   margin: 15px 0px;
-  background-color: #f6f6f6;
+  background-color: darken($white, 4%);
   border-radius: 20px;
   box-shadow: 0px 4px 15px 0px #d5d5d5;
   transition: background-color 300ms ease-in-out;
@@ -94,10 +92,10 @@
   }
 
   &:hover {
-    background-color: #f0eded;
+    background-color: darken($white, 7%);
   
     & > .explain-step__icon {
-      color: #9356dc;
+      color: $color-primary;
     }
   }
 
@@ -134,7 +132,6 @@
 .list-restaurants {
   display: flex;
   flex-direction: column;
-  /* margin: auto; */
   padding: 50px 15px 50px 15px;
   background-color: #f6f6f6;
 
@@ -168,9 +165,10 @@
   /* (espacement entre les cards) */
   border-radius: 15px;
   background-color: $white;
+  transition: 300ms, ease-in-out;
 
   &:hover {
-    background-color: #f0eded;
+    background-color: darken($white, 7%);
   }
 
   @include tablet-responsive {
@@ -189,23 +187,23 @@
       object-fit: cover;
       border-radius: 15px 15px 0px 0px;
     }
-  }
+  
 
-  &__image--new {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: absolute;
-    right: 15px;
-    top: 12px;
-    width: 80px;
-    height: 29px;
-    border-radius: 2px;
-    font-size: 14px;
-    background-color: $color-tertiary;
-    color: darken($color-tertiary, 45%);
-    // color: #008766;
-  }
+      &--new {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: absolute;
+        right: 15px;
+        top: 12px;
+        width: 80px;
+        height: 29px;
+        border-radius: 2px;
+        font-size: 14px;
+        background-color: $color-tertiary;
+        color: darken($color-tertiary, 45%);
+      }
+    }
 
   &__info {
     padding: 15px;
@@ -231,29 +229,8 @@
   position: absolute;
   bottom: 10%;
   right: 5%;
+  padding-right: 20px;
+  padding-bottom: 25px;
 }
 
-.button-like {
-  color: rgb(109, 104, 104);
-  background-color: transparent;
-  border: none;
-  font-size: 24px;
-  cursor: pointer;
-}
-
-.animheartsolid {
-  position: absolute;
-  opacity: 0;
-  transition: all 800ms ease;
-}
-
-.animheartsolid:hover {
-  opacity: 1;
-  background-clip: text;
-  font-size: 26px;
-  -webkit-background-clip: text;
-  /* necessaire pour le navigateur chrome */
-  color: transparent;
-  background-image: linear-gradient(#9356dc, #ff79da);
-}
 

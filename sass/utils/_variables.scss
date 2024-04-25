@@ -1,4 +1,7 @@
-/* Colors */
+
+
+/* <!-- COLORS --> */
+
 $color-primary: #9356dc;
 $color-secondary: #FF79DA;
 $color-tertiary: #99E2D0;
@@ -6,9 +9,16 @@ $white: #ffffff;
 $shadow : #d5d5d5;
 
 
-/* Responsive */
+/* <!-- GRADIENT --> */
 
-$breakpoints: (
-    tablet: 768px,
-    desktop: 1024px,
-);
+$gradient:linear-gradient($color-secondary, $color-primary);
+
+/* <!-- DEGREE GRADIENT --> */
+
+$degree: 165deg;
+
+
+/* <!-- RESPONSIVE --> */
+
+$breakpointstablet: 768px;
+$breakpointsdesktop: 1024px;
