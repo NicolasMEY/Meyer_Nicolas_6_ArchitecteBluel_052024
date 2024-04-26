@@ -563,20 +563,26 @@ body {
   display: flex;
   align-items: center;
 }
-@media screen and (min-width: 768px) {
-  .menu__heading {
-    text-align: center;
-  }
-}
 .menu__heading h2 {
   width: 85%;
   padding-top: 25px;
   padding-left: 5px;
   font-family: "Shrikhand";
 }
+@media screen and (min-width: 768px) {
+  .menu__heading h2 {
+    width: 70%;
+    padding-left: 30%;
+  }
+}
 .menu__button-order {
   display: flex;
   justify-content: center;
+}
+@media screen and (min-width: 768px) {
+  .menu__button-order {
+    margin-left: -10%;
+  }
 }
 
 /* <!-- LIST-CARD --> */
