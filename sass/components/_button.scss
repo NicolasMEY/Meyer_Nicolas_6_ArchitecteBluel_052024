@@ -27,27 +27,29 @@
 
 
 .button-like {
-    background-color: transparent;
-    border: none;
-    font-size: 24px;
-    cursor: pointer;
+     background-color: transparent;
+     border: none;
+     font-size: 25px;
+     cursor: pointer;
 
-    & i {
-        position: absolute;
-    }
-  }
+     & i {
+         position: absolute;
+         
+     }
+   }
   
-.animheartsolid {
-    opacity: 0;
-    transition: all 500ms ease-in-out;
-  
-    &:hover {
-        opacity: 1;
-        background-clip: text;
-        -webkit-background-clip: text;
-        /* necessaire pour le navigateur chrome */
-        color: transparent;
-        @include gradient-reverse;
-    }
+ .animheartsolid {
+     opacity: 0;
+     
     
-}
+     &:hover {
+         opacity: 1;
+         background-clip: text;
+         -webkit-background-clip: text;
+         /* necessaire pour le navigateur chrome */
+         color: transparent;
+         @include gradient-reverse;
+         animation: heart-fill 500ms forwards ease;
+         transform-origin: bottom;
+    } 
+ }

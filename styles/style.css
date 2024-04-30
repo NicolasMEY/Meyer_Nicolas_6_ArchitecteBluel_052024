@@ -1,10 +1,8 @@
-@charset "UTF-8";
 /* <!-- COLORS --> */
 /* <!-- GRADIENT --> */
 /* <!-- DEGREE GRADIENT --> */
 /* <!-- RESPONSIVE --> */
 /* <!-- GRADIENT --> */
-/* <!-- SHADOW --> */
 /* <!-- RESPONSIVE --> */
 /* <!-- LOADER --> */
 @keyframes spin {
@@ -67,6 +65,32 @@
   animation: fade-in 2s 1500ms both;
 }
 
+/* Heart fill */
+@keyframes heart-fill {
+  0% {
+    opacity: 0;
+    transform: scale(0.2);
+  }
+  15% {
+    opacity: 0.25;
+  }
+  80% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  85% {
+    opacity: 1;
+    transform: scale(1.1);
+  }
+  95% {
+    opacity: 1;
+    transform: scale(1.05);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
 * {
   box-sizing: border-box;
   margin: 0px;
@@ -107,7 +131,7 @@ a {
 .button-like {
   background-color: transparent;
   border: none;
-  font-size: 24px;
+  font-size: 25px;
   cursor: pointer;
 }
 .button-like i {
@@ -116,7 +140,6 @@ a {
 
 .animheartsolid {
   opacity: 0;
-  transition: all 500ms ease-in-out;
 }
 .animheartsolid:hover {
   opacity: 1;
@@ -125,6 +148,8 @@ a {
   /* necessaire pour le navigateur chrome */
   color: transparent;
   background-image: linear-gradient(165deg, #9356dc, #FF79DA);
+  animation: heart-fill 500ms forwards ease;
+  transform-origin: bottom;
 }
 
 .loader {
@@ -334,7 +359,6 @@ body {
 }
 .search-restaurants__heading {
   width: 70%;
-  /* à tester pour aller à la ligne */
   margin: 10px 0px;
 }
 @media screen and (min-width: 768px) {
@@ -424,7 +448,6 @@ body {
   width: 20px;
   height: 25px;
   color: #7e7e7e;
-  /* transition au survol vers le rose */
 }
 .explain-step__instruction {
   font-weight: 500;
@@ -562,27 +585,21 @@ body {
 .menu__heading {
   display: flex;
   align-items: center;
+  gap: 20px;
+}
+@media screen and (min-width: 400px) {
+  .menu__heading {
+    justify-content: center;
+  }
 }
 .menu__heading h2 {
-  width: 85%;
   padding-top: 25px;
   padding-left: 5px;
   font-family: "Shrikhand";
 }
-@media screen and (min-width: 768px) {
-  .menu__heading h2 {
-    width: 70%;
-    padding-left: 30%;
-  }
-}
 .menu__button-order {
   display: flex;
   justify-content: center;
-}
-@media screen and (min-width: 768px) {
-  .menu__button-order {
-    margin-left: -10%;
-  }
 }
 
 /* <!-- LIST-CARD --> */
@@ -674,7 +691,6 @@ body {
 .course-card__price {
   display: flex;
   align-items: flex-end;
-  width: 15%;
   padding: 5px;
   font-weight: 700;
 }
@@ -685,7 +701,6 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  height: auto;
   width: 20%;
   margin-right: -20%;
   border-radius: 0px 15px 15px 0px;
@@ -699,4 +714,5 @@ body {
   content: "\f058";
   color: #ffffff;
   transition: transform 600ms ease-in-out;
+  font-family: "Font Awesome 5 Free";
 }/*# sourceMappingURL=style.css.map */
