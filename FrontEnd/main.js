@@ -211,5 +211,55 @@ function createNavbar(isLoggedIn) {
   navbarContainer.appendChild(createNavbar(isLoggedIn));
 
 
+///////////////////////////////////////////////////////////////////////
+// Création du bouton "modifier" sur la page d'accueil en mode admin //  
+///////////////////////////////////////////////////////////////////////
+
+  // créer le bouton modifier en mode édition
+  if (isLoggedIn) {
+    const editButton = document.createElement("button");
+    editButton.id = "edit-button";
+    editButton.classList.add("edit-mode-button");
+
+    // ajouter l'icone du bouton
+    const editIcon = document.createElement("i");
+    editIcon.classList.add("fas", "fa-pen-to-square");
+
+    // Ajouter l'icône à gauche du texte du bouton "Modifier"
+    editButton.appendChild(editIcon);
+
+    // ajouter le texte du bouton
+    const buttonText = document.createTextNode("Modifier");
+    editButton.appendChild(buttonText);
+
+    // positionner le bouton à la droite du titre h2 "mes projets"
+    const mesProjetsTitle = document.querySelector("#portfolio h2");
+    mesProjetsTitle.style.display = "flex";
+    mesProjetsTitle.style.justifyContent = "center";
+    mesProjetsTitle.appendChild(editButton);
+  }
+
+///////////////////////////
+// Création de la modale //  
+///////////////////////////
+
+let modal = null
+
+// Fonction pour créer la modale
+function createModal() {
+    modal = document.createElement("div");
+    modal.id = "myModal";
+    modal;classList.add("modal");
+}
+
+
+// Ajouter un gestionnaire d'évènement au bouton "modifier"
+const editButton = document.getElementById("edit-button");
+editButton.addEventListener("click", () => {
+    if (!modal) {
+        createModal();
+    }
+});
+
   
 

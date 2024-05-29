@@ -335,8 +335,7 @@ footer nav ul {
 .navbar {
   background-color: black;
   color: white;
-  height: 5vh; /* Utilisation de 1vh pour que la hauteur soit de 1% de la hauteur de la vue */
-  display: flex;
+  height: 5vh; /* la hauteur est donc de 5% de la hauteur de la page */
   justify-content: center;
   align-items: center;
   position: fixed;
@@ -351,6 +350,27 @@ footer nav ul {
 
 .navbar i {
   width: 40px; /* taille du logo  */
+  font-size: 14px;
   margin-right: 10px;
   color: white;
+}
+
+/* Bouton "modifier" dynamique */
+
+.edit-mode-button {
+  display: flex;
+  align-items: center;
+  background-color: white;
+  color: black;
+  border: red, 2px;
+  margin-top: 2px;
+  margin-left: 30px;
+  padding: 5px 10px;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+.edit-mode-button i {
+  font-size: 12px;
+  padding-right: 10px;
 }
