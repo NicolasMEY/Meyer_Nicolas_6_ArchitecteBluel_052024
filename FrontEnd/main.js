@@ -239,9 +239,21 @@ function createNavbar(isLoggedIn) {
     mesProjetsTitle.appendChild(editButton);
   }
 
-///////////////////////////
-// Création de la modale //  
-///////////////////////////
+/////////////////////////////////////////////////////
+//             Création de la modale              //  
+////////////////////////////////////////////////////
+
+
+// Ajout d'n gestionnaire d'évènement au bouton "modifier"
+const editButton = document.getElementById("edit-button");
+editButton.addEventListener("click", () => {
+    if (!modal) {
+        createModal();
+        showModal();
+    }
+});
+
+
 
 let modal = null
 
@@ -249,17 +261,23 @@ let modal = null
 function createModal() {
     modal = document.createElement("div");
     modal.id = "myModal";
-    modal;classList.add("modal");
+    modal.classList.add("modal");
+
+    const modalContent = document.createElement("div");
+    modalContent.classList.add("modal-content");
+
+    //Ajouter la modale dans le body
+    modal.appendChild(modalContent);
+    document.body.appendChild(modal);
+}
+
+//Fonction pour afficher la modale
+function showModal() {
+    modal.classList;add("show");
 }
 
 
-// Ajouter un gestionnaire d'évènement au bouton "modifier"
-const editButton = document.getElementById("edit-button");
-editButton.addEventListener("click", () => {
-    if (!modal) {
-        createModal();
-    }
-});
+
 
   
 
