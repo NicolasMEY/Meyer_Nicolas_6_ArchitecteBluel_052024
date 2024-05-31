@@ -6,10 +6,7 @@
 
 // 1. Initialisation des variables dans le scope globale ********************************************
 
-
-// Après cette ligne, gallery contiendra une référence à l'élément DOM avec la classe gallery.
-
-const gallery = document.querySelector('.gallery');
+const gallery = document.querySelector(".gallery");
 let works = [];
 
 
@@ -23,7 +20,6 @@ let works = [];
 
 const getWorks = async () => {
     const response = await fetch('http://localhost:5678/api/works');
-
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
@@ -35,6 +31,7 @@ const getWorks = async () => {
 
 
     works.forEach(work => {
+        console.log('Processing work:', work);
         const workElement = document.createElement('div');
         workElement.innerHTML = `
             <img src="${work.imageUrl}" alt="${work.title}">
@@ -111,8 +108,6 @@ categoryElement.addEventListener('click', () => {
 }
 
 
-
-
 // 4. Fonction pour mettre à jour la galerie avec des travaux filtrés ******************
 
 
@@ -134,8 +129,6 @@ const updateGallery = (filteredWorks) => {
     });
     
 }
-
-
 
 //     workElement.innerHTML définit le contenu HTML intérieur du div créé
 //     La chaîne de caractères entre les backticks (`) est un template literal qui permet d'inclure des expressions JavaScript en utilisant ${expression}.
@@ -160,6 +153,8 @@ getFiltered();
 
 
 
+
+
 ///////////////////////////////////////////////////////////////////
 // Création de la navbar dynamique au niveau de la page d'accueil//
 ///////////////////////////////////////////////////////////////////
@@ -169,7 +164,8 @@ const isLoggedIn = localStorage.getItem("token") !== null;
 console.log(localStorage.getItem("token"))
 
 // Après avoir reçu le token du serveur en réponse à la soumission du formulaire de connexion
-const token = "votre_token"; // Remplacez "votre_token" par le token reçu du serveur
+const token = "votre_token"; 
+
 // Stockage du token dans le localStorage
 localStorage.setItem("token", token);
 
@@ -202,13 +198,19 @@ function createNavbar(isLoggedIn) {
   return navbar;
 }
   
-  
-  
   // Sélectionner le conteneur de la navbar
   const navbarContainer = document.getElementById("navbarContainer");
   
   // Créer la navbar et l'ajouter au conteneur
   navbarContainer.appendChild(createNavbar(isLoggedIn));
+
+
+
+
+
+
+
+
 
 
 ///////////////////////////////////////////////////////////////////////
@@ -239,42 +241,65 @@ function createNavbar(isLoggedIn) {
     mesProjetsTitle.appendChild(editButton);
   }
 
+
+
+
+
+
+
 /////////////////////////////////////////////////////
 //             Création de la modale              //  
 ////////////////////////////////////////////////////
 
 
-// Ajout d'n gestionnaire d'évènement au bouton "modifier"
-const editButton = document.getElementById("edit-button");
-editButton.addEventListener("click", () => {
-    if (!modal) {
-        createModal();
-        showModal();
+const modale = document.getElementById("modale");
+const openModaleButton = document.getElementById("edit-button");
+const closeModaleButton = document.querySelector(".js-modale-close");
+const addProjectButton = document.querySelector(".js-modale-projet");
+const projectsContainer = document.querySelector(".js-admin-projets");
+
+// Fonction pour ouvrir la modale
+const openModale = () => {
+    modale.style.display = "flex";
+    modale.setAttribute("aria-hidden", "false");  
+};
+
+// Fonction pour fermer la modale
+const closeModale = () => {
+    modale.style.display = "none";
+    modale.setAttribute("aria-hidden", "true")
+};
+
+// Fonction pour ajouter des photos dans la galerie
+const addPhotos = (photos) => {
+    photos.forEach(photo => {
+        const photoElement = document.createElement("div");
+        photoElement.innerHTML = `<img src="${photo.imageUrl}" alt="${photo.title}">
+        <div class="work-info">
+            <figcaption>${photo.title}</figcaption>
+            </div>`;
+        projectsContainer.appendChild(photoElement);
+    });
+};
+
+// Écouteurs d'événements
+openModaleButton.addEventListener('click', openModale);
+closeModaleButton.addEventListener('click', (event) => {
+    event.preventDefault();
+    closeModale();
+});
+// modale : Ferme la modale lorsque l'utilisateur clique en dehors du contenu de la modale.
+modale.addEventListener('click', (event) => {
+    if (event.target === modale) {
+        closeModale();
     }
 });
 
+// Ajouter des photos à la galerie au chargement de la page
+addPhotos();
 
 
-let modal = null
 
-// Fonction pour créer la modale
-function createModal() {
-    modal = document.createElement("div");
-    modal.id = "myModal";
-    modal.classList.add("modal");
-
-    const modalContent = document.createElement("div");
-    modalContent.classList.add("modal-content");
-
-    //Ajouter la modale dans le body
-    modal.appendChild(modalContent);
-    document.body.appendChild(modal);
-}
-
-//Fonction pour afficher la modale
-function showModal() {
-    modal.classList;add("show");
-}
 
 
 
