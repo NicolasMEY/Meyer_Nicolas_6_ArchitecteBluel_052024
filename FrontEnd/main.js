@@ -30,6 +30,12 @@ const getWorks = async () => {
     console.log('Works after fetching:', works); // Affiche les travaux récupérés dans la console
 
 
+// permet de recréer une gallerie en fonction des choix, genre de filtre sur la modale
+    // const createGallery = (works) => {
+    //     gallery.innerHTML = ''; // Vider la galerie existante
+    
+    // }
+
     works.forEach(work => {
         console.log('Processing work:', work);
         const workElement = document.createElement('div');
@@ -40,6 +46,8 @@ const getWorks = async () => {
             </div> `;
         gallery.appendChild(workElement);
     });
+    // Ajouter des photos à la galerie au chargement de la page
+// addPhotos(works);
 }
 
 
@@ -143,11 +151,11 @@ const updateGallery = (filteredWorks) => {
 // 5. Appels des fonctions pour initialiser l'affichage ********************************
 
 
-// Appeler la fonction getWorks pour récupérer les travaux et les afficher initialement
-getWorks().then(() => {
-// Appeler getFiltered pour générer le menu des catégories après avoir récupéré les travaux
-getFiltered();
-});
+// // Appeler la fonction getWorks pour récupérer les travaux et les afficher initialement
+// getWorks().then(() => {
+// // Appeler getFiltered pour générer le menu des catégories après avoir récupéré les travaux
+// getFiltered();
+// });
 
 
 
@@ -162,6 +170,9 @@ getFiltered();
 // Vérifier si l'utilisateur est connecté , en vérifiant la présence du token dans le localStorage
 const isLoggedIn = localStorage.getItem("token") !== null;
 console.log(localStorage.getItem("token"))
+
+
+
 
 // Après avoir reçu le token du serveur en réponse à la soumission du formulaire de connexion
 const token = "votre_token"; 
@@ -205,9 +216,22 @@ function createNavbar(isLoggedIn) {
   navbarContainer.appendChild(createNavbar(isLoggedIn));
 
 
+/////////////////////////////////////////////////
+// Suppression des boutons filtre en mode admin //
+/////////////////////////////////////////////////
 
+// Sélection de la section des boutons filtres
+const filtersSection = document.querySelector(".categories-menu");
 
+// Vérification si l'utilisateur est connecté
+if (isLoggedIn) {
+    // Si l'utilisateur est connecté, masquer la section des boutons filtres
+    filtersSection.style.display = 'none';
+}
 
+// Ajout d'une marge entre le titre "Mes projets" et la galerie
+const maMargeProjetTitleGalerieAdmin = document.querySelector("#portfolio h2");
+maMargeProjetTitleGalerieAdmin.style.marginBottom = '65px'; 
 
 
 
@@ -258,6 +282,7 @@ const closeModaleButton = document.querySelector(".js-modale-close");
 const addProjectButton = document.querySelector(".js-modale-projet");
 const projectsContainer = document.querySelector(".js-admin-projets");
 
+
 // Fonction pour ouvrir la modale
 const openModale = () => {
     modale.style.display = "flex";
@@ -275,11 +300,22 @@ const addPhotos = (photos) => {
     photos.forEach(photo => {
         const photoElement = document.createElement("div");
         photoElement.innerHTML = `<img src="${photo.imageUrl}" alt="${photo.title}">
-        <div class="work-info">
-            <figcaption>${photo.title}</figcaption>
-            </div>`;
+        <div class="delete-icon">&times;</div>`;
+
+        // Suppression de la photo en cliquant sur l'icone poubelle
+const deleteIcon = photoElement.querySelector(".delete-icon");
+deleteIcon.addEventListener('click', () => {
+    projectsContainer.removeChild(photoElement);
+});
+        // Pas besoin des commentaires sous les photos dans la modale
+        //<div class="work-info">
+        //     <figcaption>${photo.title}</figcaption>
+        //     </div>`;
         projectsContainer.appendChild(photoElement);
     });
+
+projectsContainer.appendChild(photoElement);
+
 };
 
 // Écouteurs d'événements
@@ -295,8 +331,15 @@ modale.addEventListener('click', (event) => {
     }
 });
 
-// Ajouter des photos à la galerie au chargement de la page
-addPhotos();
+
+
+const initializePage = async () => {
+    await getWorks();
+    await getFiltered();
+    addPhotos(works); // Appeler addPhotos après avoir récupéré les travaux
+};
+
+initializePage();
 
 
 
