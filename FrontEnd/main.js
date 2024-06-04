@@ -33,10 +33,9 @@ const getWorks = async () => {
 // permet de recréer une gallerie en fonction des choix, genre de filtre sur la modale
     // const createGallery = (works) => {
     //     gallery.innerHTML = ''; // Vider la galerie existante
-    
     // }
 
-    works.forEach(work => {
+    works.forEach (work => {
         console.log('Processing work:', work);
         const workElement = document.createElement('div');
         workElement.innerHTML = `
@@ -172,8 +171,6 @@ const isLoggedIn = localStorage.getItem("token") !== null;
 console.log(localStorage.getItem("token"))
 
 
-
-
 // Après avoir reçu le token du serveur en réponse à la soumission du formulaire de connexion
 const token = "votre_token"; 
 
@@ -220,18 +217,18 @@ function createNavbar(isLoggedIn) {
 // Suppression des boutons filtre en mode admin //
 /////////////////////////////////////////////////
 
-// Sélection de la section des boutons filtres
-const filtersSection = document.querySelector(".categories-menu");
+    // Sélection de la section des boutons filtres
+    const filtersSection = document.querySelector(".categories-menu");
 
-// Vérification si l'utilisateur est connecté
-if (isLoggedIn) {
-    // Si l'utilisateur est connecté, masquer la section des boutons filtres
-    filtersSection.style.display = 'none';
-}
+    // Vérification si l'utilisateur est connecté
+    if (isLoggedIn) {
+        // Si l'utilisateur est connecté, masquer la section des boutons filtres
+        filtersSection.style.display = 'none';
+    }
 
-// Ajout d'une marge entre le titre "Mes projets" et la galerie
-const maMargeProjetTitleGalerieAdmin = document.querySelector("#portfolio h2");
-maMargeProjetTitleGalerieAdmin.style.marginBottom = '65px'; 
+    // Ajout d'une marge entre le titre "Mes projets" et la galerie
+    const maMargeProjetTitleGalerieAdmin = document.querySelector("#portfolio h2");
+    maMargeProjetTitleGalerieAdmin.style.marginBottom = '65px'; 
 
 
 
@@ -271,78 +268,148 @@ maMargeProjetTitleGalerieAdmin.style.marginBottom = '65px';
 
 
 
-/////////////////////////////////////////////////////
-//             Création de la modale              //  
-////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////
+//    Création de la modale vue "Galerie" et vue "Ajout photos"    //  
+/////////////////////////////////////////////////////////////////////
+
+    // Sélection des éléments communs aux modales
+    
+    const openModaleButton = document.getElementById("edit-button");
+    const closeModaleButton = document.querySelector(".js-modale-close");
+    const addProjectButton = document.querySelector(".js-modale-projet");
+    // Sélection des éléments spécifiques à la vue "Galerie photo"
+    const modale = document.getElementById("modale");
+    const modaleTitleGallery = document.querySelector("ModaleTitleGallery");
+    const projectsContainer = document.querySelector(".js-admin-projets");
+    // Sélection des éléments spécifiques à la vue "Ajout photos"
+    const modaleAddProjet = document.getElementById("modaleAddProjet");
+    const modaleTitleAdd = document.querySelector(".ModaleTitleAdd");
+    const addPhotoForm = document.querySelector("#addPhotoForm");
 
 
-const modale = document.getElementById("modale");
-const openModaleButton = document.getElementById("edit-button");
-const closeModaleButton = document.querySelector(".js-modale-close");
-const addProjectButton = document.querySelector(".js-modale-projet");
-const projectsContainer = document.querySelector(".js-admin-projets");
+    // Fonction pour ouvrir la modale vue "Galerie photo"
+    const openModale = () => {
+        modale.style.display = "flex";
+        projectsContainer.styl.display = "flex"
+        modaleTitleGallery.style.display = "flex";
+        modale.setAttribute("aria-hidden", "false");  
+    };
 
+    // Fonction pour ouvrir la modale vue "Ajouter une photo"
+    const openAddPhotoModale = () => {
+        modale.style.display = "none";
+        modaleAddProjet.style.display = "flex";
+        modaleTitleAdd.style.display = "flex";
+        addPhotoForm.style.display = "flex";
+        modaleAddProjet.setAttribute("aria-hidden", "false");
+    };
 
-// Fonction pour ouvrir la modale
-const openModale = () => {
-    modale.style.display = "flex";
-    modale.setAttribute("aria-hidden", "false");  
-};
+    // Fonction pour fermer la modale
+    const closeModale = () => {
+        modale.style.display = "none";
+        modaleAddProjet.style.display = "none";
+        modale.setAttribute("aria-hidden", "true")
+        modaleAddProjet.setAttribute("aria-hidden", "true");
+        addPhotoForm.style.display = "none"; // Réinitialise le formulaire pour la prochaine ouverture
+    };
 
-// Fonction pour fermer la modale
-const closeModale = () => {
-    modale.style.display = "none";
-    modale.setAttribute("aria-hidden", "true")
-};
-
-// Fonction pour ajouter des photos dans la galerie
-const addPhotos = (photos) => {
-    photos.forEach(photo => {
-        const photoElement = document.createElement("div");
-        photoElement.innerHTML = `<img src="${photo.imageUrl}" alt="${photo.title}">
-        <div class="delete-icon">&times;</div>`;
-
-        // Suppression de la photo en cliquant sur l'icone poubelle
-const deleteIcon = photoElement.querySelector(".delete-icon");
-deleteIcon.addEventListener('click', () => {
-    projectsContainer.removeChild(photoElement);
-});
-        // Pas besoin des commentaires sous les photos dans la modale
-        //<div class="work-info">
-        //     <figcaption>${photo.title}</figcaption>
-        //     </div>`;
-        projectsContainer.appendChild(photoElement);
+    // Fermeture de la modale lorsque l'utilisateur clique en dehors du contenu de la modale.
+    modale.addEventListener('click', (event) => {
+        if (event.target === modale) {
+            closeModale();
+        }
+        if (event.target === modaleAddProjet) {
+            closeModale();
+        }
     });
 
-projectsContainer.appendChild(photoElement);
+    // Fonction pour ajouter des photos dans la galerie
+    const addPhotos = (photos) => {
+        photos.forEach(photo => {
+            const photoElement = document.createElement("div");
+            photoElement.innerHTML = `<img src="${photo.imageUrl}" alt="${photo.title}">
+            <div class="delete-icon">&times;</div>`;
+            
 
+///////////////////////////////////////////////////////////////////////////:
+
+    // Création de l'icone Delete en dynamique
+    const deleteIcon = document.createElement("i")
+    deleteIcon.classList.add("fas", "fa-trash-can");
+    // deleteIcon.style.position = "absolute";
+
+    // Suppression VISUELLE html de la photo en cliquant sur l'icone Delete sans supprimer les données coté serveur
+    deleteIcon.addEventListener('click', () => {
+        projectsContainer.removeChild(photoElement);
+    });
+            photoElement.appendChild(deleteIcon);
+            projectsContainer.appendChild(photoElement);
+        });
 };
 
-// Écouteurs d'événements
+// Fonction pour supprimer un work via l'API
+/* const deleteWork = async(photoId) => {
+    const response = await fetch (`http://localhost:5678/api/works/${photoId}`, {
+        method: "DELETE",
+        headers: {
+            "Authorization": `Bearer ${localStorage.getItem("token")}`
+        }
+        });
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+    };
+}
+
+// Appel de la fonction pour supprimer les works coté serveur
+deleteIcon.addEventListener("click", async () => {
+    const photoId = photo.id;
+    try {
+        await deleteWork(photoId);
+        console.log(`Le travail avec l'ID ${photoId} a été supprimé avec succès.`);
+projectsContainer.removeChild(photoElement); // Supprimez également l'élément HTML de la galerie
+} catch (error) {
+    console.error(error.message);
+    }
+});
+*/
+
+
+// Écouteurs d'événements : ouverture de la modale vue "Galerie"
 openModaleButton.addEventListener('click', openModale);
 closeModaleButton.addEventListener('click', (event) => {
     event.preventDefault();
     closeModale();
 });
-// modale : Ferme la modale lorsque l'utilisateur clique en dehors du contenu de la modale.
-modale.addEventListener('click', (event) => {
-    if (event.target === modale) {
-        closeModale();
-    }
+// Écouteurs d'événements : ouverture de la modale vue "Ajout photos"
+addProjectButton.addEventListener("click", openAddPhotoModale);
+closeModaleButton.addEventListener('click', (event) => {
+    event.preventDefault();
+    closeModale();
 });
 
 
 
+// Initialisation de la page
 const initializePage = async () => {
     await getWorks();
     await getFiltered();
     addPhotos(works); // Appeler addPhotos après avoir récupéré les travaux
 };
-
 initializePage();
 
 
 
+
+
+
+
+// en cliquant sur le bouton ajouter photo de la première modale : 
+// "modale-wrapper" est maintenu, 
+
+// "addphotoform" qui apparait, 
+
+// <h2>Galerie photo</h2> et
+// <div class="galleryMod js-admin-projets"></div> disparaissent
 
 
 

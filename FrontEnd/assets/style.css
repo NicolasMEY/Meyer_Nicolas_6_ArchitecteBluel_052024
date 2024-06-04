@@ -417,6 +417,7 @@ footer nav ul {
   border-radius: 10px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
+
 .modale-wrapper h2 {
   margin-top: 10px;
   margin-bottom: 30px;
@@ -425,6 +426,7 @@ footer nav ul {
   font-weight: 400;
   color: black;
 }
+
 .modale-wrapper .galleryMod {
   display: grid;
   grid-template-columns: 5fr 5fr 5fr 5fr 5fr;
@@ -441,8 +443,30 @@ footer nav ul {
 }
 
 .modale-wrapper .galleryMod img {
+  position: relative;
   width: 80%;
   height: 100%;
+}
+
+.delete-icon {
+  display: none;
+}
+
+.modale-wrapper fa-trash-can {
+  position: relative;
+  top: 5px;
+  right: 5px;
+  background-color: red;
+  color: white;
+  border: solid 1px red;
+  border-radius: 0;
+  width: 20px;
+  height: 20px;
+  text-align: center;
+  line-height: 20px;
+  font-size: 14px;
+  cursor: pointer;
+  z-index: 10;
 }
 
 .modale-wrapper .separator {
@@ -457,12 +481,12 @@ footer nav ul {
   font-family: "Syne";
   color: white;
   font-size: 14px;
-
   font-weight: 700;
   border: solid 1px #1d6154;
   border-radius: 25px;
   cursor: pointer;
 }
+
 .modale-wrapper .close-btn {
   position: absolute;
   color: black;
@@ -473,19 +497,117 @@ footer nav ul {
   cursor: pointer;
 }
 
-/* .delete-icon {
+/* Modale vue ajout photos */
+
+.js-modale-return {
   position: absolute;
-  top: 5px;
-  right: 5px;
-  background-color: rgba(255, 0, 0, 0.8);
-  color: white;
-  border: none;
-  border-radius: 50%;
-  width: 20px;
-  height: 20px;
-  text-align: center;
-  line-height: 20px;
-  font-size: 14px;
+  top: 18px;
+  left: 18px;
+  font-size: 21px;
   cursor: pointer;
-  z-index: 10;
-} */
+}
+
+#addPhotoForm {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 40px;
+}
+
+.form-group-photo {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 420px;
+  height: 170px;
+  background-color: #e8f1f6;
+}
+
+.form-group-photo i {
+  color: #b9c5cc;
+  font-size: 90px;
+  font-weight: 100;
+  margin: 20px;
+  margin-top: -25px;
+  background-color: #e8f1f7;
+  width: 70px;
+  height: 60px;
+  border-radius: 10px;
+}
+
+.form-group-photo input {
+  display: none;
+}
+
+.form-group-photo label {
+  font-family: "work sans";
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 200px;
+  height: 40px;
+  background-color: #cbd6dc;
+  color: #306685;
+  border-radius: 50px;
+  cursor: pointer;
+  margin-top: 20px;
+}
+
+.form-group-photo::after {
+  content: "jpg, png : 4mo max";
+  position: absolute;
+  top: 285px;
+  font-size: 10px;
+}
+
+.form-group-title {
+  display: flex;
+  flex-direction: column;
+  width: 420px;
+}
+.form-group-title input {
+  height: 50px;
+  font-size: 1.2em;
+  border: none;
+  box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+}
+.form-group-title label {
+  margin: 3em 0 1em 0;
+}
+
+.form-group-category {
+  display: flex;
+  flex-direction: column;
+  width: 420px;
+}
+.form-group-category input {
+  height: 50px;
+  font-size: 1.2em;
+  border: none;
+  box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+}
+.form-group-category label {
+  margin: 3em 0 1em 0;
+}
+
+#modaleAddProjet .separator {
+  width: 65%;
+  margin-top: 50px;
+  margin-bottom: 15px;
+}
+
+#modaleAddProjet .add-photo-btn {
+  padding: 1vh 7vh;
+  background-color: #a7a7a7;
+  font-family: "Syne";
+  color: white;
+  font-size: 14px;
+  font-weight: 700;
+  border: none;
+  border-radius: 25px;
+  margin: 2em auto;
+  width: 240px;
+  text-align: center;
+  cursor: pointer;
+}

@@ -18,13 +18,14 @@
 
   <body>
 
-    <!-- création de la modale -->
+    <!-- création de la structure modale vue "galerie photos" -->
     <aside id="modale" class="modale" aria-hidden="true">
       <div class="modale-wrapper">
         <button class="close-btn js-modale-close">
           <i class="fas fa-xmark"></i>
         </button>
-        <h2>Galerie photo</h2>
+        <!-- Partie spécifique de la vue "galerie photos" -->
+        <h2 class="ModaleTitleGallery">Galerie photo</h2>
         <div class="galleryMod js-admin-projets">
           <!-- génération des photos de manière dynamique -->
         </div>
@@ -34,6 +35,41 @@
         </button>
       </div>
     </aside>
+
+    <!-- création de la structure modale vue "ajout photo" -->
+    <aside id="modaleAddProjet" class="modale" aria-hidden="true">
+      <div class="modale-wrapper">
+        <!-- Bouton de retour spécifique -->
+        <a href="" class = "js-modale-return">
+          <i class = "fa-solid fa-arrow-left"></i>
+        </a>
+        <button class="close-btn js-modale-close">
+          <i class="fas fa-xmark"></i>
+        </button>
+        <!-- Partie spécifique de la vue "ajout photo" -->
+        <h2 class="ModaleTitleAdd">Ajout photo</h2>
+        <form id="addPhotoForm">
+          <div class="form-group-photo">
+            <i class="fa-regular fa-image"></i>
+            <label for="photoUrl">+ Ajouter une photo:</label>
+            <input type="file" id="photoUrl" name="photoUrl" accept="image/png, image/gif, image/jpeg" class="js-image" required >
+          </div>
+          <div class="form-group-title">
+            <label for="photoTitle">Titre</label>
+            <input type="text" id="photoTitle" name="photoTitle" class="js-title" required>
+          </div>
+          <div class="form-group-category">
+            <label for="photoCategory">Catégorie</label>
+            <input type="text" id="photoCategory" name="photoCategory" class="js-category" required>
+          </div>
+        </form>
+        <hr class="separator"></hr>
+        <button class="add-photo-btn js-modale-projet">
+          Valider
+        </button>
+      </div>
+    </aside>
+
 
     <!-- Conteneur de la navbar créée dynamiquement -->
     <div id="navbarContainer"></div>
