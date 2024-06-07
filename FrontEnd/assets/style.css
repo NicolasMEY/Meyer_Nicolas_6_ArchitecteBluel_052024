@@ -429,7 +429,7 @@ footer nav ul {
 
 .modale-wrapper .galleryMod {
   display: grid;
-  grid-template-columns: 5fr 5fr 5fr 5fr 5fr;
+  grid-template-columns: 6fr 6fr 6fr 6fr 6fr;
   row-gap: 20px;
   column-gap: 0px;
   width: 80%;
@@ -437,36 +437,34 @@ footer nav ul {
 }
 
 .modale-wrapper .galleryMod div {
-  width: 100%;
+  position: relative;
+  width: 110%;
   margin-bottom: 10px;
   text-align: center;
 }
 
 .modale-wrapper .galleryMod img {
-  position: relative;
   width: 80%;
-  height: 100%;
+  height: auto;
 }
 
 .delete-icon {
   display: none;
 }
 
-.modale-wrapper fa-trash-can {
-  position: relative;
+.modale-wrapper i.fas.fa-trash-can {
+  position: absolute;
   top: 5px;
-  right: 5px;
-  background-color: red;
+  right: 15px;
+  background-color: black;
+  font-size: 11px;
   color: white;
-  border: solid 1px red;
-  border-radius: 0;
-  width: 20px;
-  height: 20px;
+  border: solid 1px black;
+  width: 16px;
+  height: 16px;
   text-align: center;
-  line-height: 20px;
-  font-size: 14px;
+  line-height: 17px;
   cursor: pointer;
-  z-index: 10;
 }
 
 .modale-wrapper .separator {
