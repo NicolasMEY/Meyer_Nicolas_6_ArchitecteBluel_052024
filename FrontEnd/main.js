@@ -1,40 +1,30 @@
 
 ///////////////////////////////////////////////////////////////////
-// Récupération des travaux via l'API et création des filtres    //
+//  Récupération des travaux via l'API et création des filtres  //
 ///////////////////////////////////////////////////////////////////
 
-
-// 1. Initialisation des variables dans le scope globale ********************************************
+// 1. Initialisation des variables dans le scope globale ********************************************************
 
 const gallery = document.querySelector(".gallery");
 let works = [];
 
-
-// 2. Fonction pour récupérer et afficher les travaux (works) **********************************
-
-
-// La fonction déclarée et asynchrone getWorks envoie une requête HTTP GET (avec fetch) à l'URL spécifiée, attend la réponse, vérifie si la réponse est correcte, et en cas d'erreur, lève une exception avec un message d'erreur approprié. 
-// L'utilisation de await avant fetch signifie que la fonction va attendre que la promesse soit résolue avant de continuer. Cela signifie que le code attend la réponse de l'API,
-// Le nom response utilisé dans ce contexte n'est pas choisi au hasard. Il est communément utilisé pour représenter l'objet retourné par la fonction fetch() lorsqu'elle effectue une requête HTTP. 
-
+// 2. Fonction getWorks pour récupérer et afficher les travaux (works) **********************************************************************
 
 const getWorks = async () => {
     const response = await fetch('http://localhost:5678/api/works');
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
-
     // la variable works contiendra les données de la réponse de l'API au format JSON.
     works = await response.json(); 
-    // pas besoin de définir la variable works
-    console.log('Works after fetching:', works); // Affiche les travaux récupérés dans la console
+    console.log('Works after fetching:', works); // Affiche les works récupérés 
+    createGallery(works);
+    // Appel de la fonction "createGallery pour afficher les travaux dans la galerie" avec les données works
+}
 
-
-// permet de recréer une gallerie en fonction des choix, genre de filtre sur la modale
-    // const createGallery = (works) => {
-    //     gallery.innerHTML = ''; // Vider la galerie existante
-    // }
-
+// Variable "createGallery" permet de recréer une galerie
+const createGallery = (works) => {
+    gallery.innerHTML = '';  // Vider la galerie existante
     works.forEach (work => {
         console.log('Processing work:', work);
         const workElement = document.createElement('div');
@@ -45,82 +35,58 @@ const getWorks = async () => {
             </div> `;
         gallery.appendChild(workElement);
     });
-    // Ajouter des photos à la galerie au chargement de la page
-// addPhotos(works);
 }
 
+/////////// Variable createGallery à rappeler !!!!!!
 
-
-// 3. Fonction pour récupérer les catégories et créer les boutons de filtres **************
+// 3. Fonction getFiltered pour récupérer les catégories et créer les boutons de filtres ****************************************************************************
 
 const getFiltered = async () => {
     const response = await fetch ('http://localhost:5678/api/categories')
     if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
     }
- 
     const categories = await response.json();
     console.log('Categories:', categories);
 
-
     // initialisation de la variables pour les boutons par catégories
     const categoriesMenu = document.querySelector('.categories-menu');
-
-
-
-    
     // Initialisation de la variable pour le bouton "Tous les travaux"
-    // const allCategoriesButton = document.getElementById('all-categories');
     const allCategoriesButton = document.createElement('button');
     allCategoriesButton.textContent = 'Tous';
     allCategoriesButton.id = 'all-categories';
     categoriesMenu.appendChild(allCategoriesButton);
 
-
-    // Ajouter un gestionnaire d'événements pour le clic sur le bouton "Tous les travaux"
+    // Ajout un gestionnaire d'événements pour le bouton "Tous les travaux"
     allCategoriesButton.addEventListener('click', () => {
-    // Appeler la fonction updateGallery avec tous les travaux
+    // Appel de la fonction updateGallery avec tous les travaux
     console.log('All button clicked', allCategoriesButton);
     updateGallery(works);
-
-// categoriesMenu.appendChild(allCategoriesButton);
 });
 
-categories.forEach(category => {
-    const categoryElement = document.createElement('div')
-    categoryElement.innerHTML = 
-    `<button id="${category.id}"> ${category.name}</button>`;
-    categoriesMenu.appendChild(categoryElement);
+    // création des des boutons filtres dans le DOM
+    categories.forEach(category => {
+        const categoryElement = document.createElement('div')
+        categoryElement.innerHTML = 
+        `<button id="${category.id}"> ${category.name}</button>`;
+        categoriesMenu.appendChild(categoryElement);
     
+    // Ajout d'un gestionnaire d'événements pour filtrer la galerie par catégorie
+    categoryElement.addEventListener('click', () => {
+        // console.log('Category button clicked:', category.name); 
+        // console.log('Category ID:', category.id); 
+        // console.log('Works:', works); 
+        const filteredWorks = works.filter(work => work.categoryId === category.id);
+        updateGallery(filteredWorks);
+        console.log('Filtered works:', filteredWorks); 
     
-
-// Ajoutez un gestionnaire d'événements pour filtrer la galerie par catégorie
-categoryElement.addEventListener('click', () => {
-    // Exemple de logique pour filtrer les travaux
-    console.log('Category button clicked:', category.name); 
-    console.log('Category ID:', category.id); // Affiche l'ID de la catégorie
-    console.log('Works:', works); // Affiche tous les travaux pour vérifier leur structure
-    const filteredWorks = works.filter(work => work.categoryId === category.id);
-    updateGallery(filteredWorks);
-    console.log('Filtered works:', filteredWorks); 
-    
-    
-    
-// filter parcourt chaque élément de works.Pour chaque work, il vérifie si work.category est égal à category.id.Si cette condition est vraie, work est ajouté au nouveau tableau filteredWorks.Si la condition est fausse, work est ignoré.
-
-// La fonction updateGallery est appelée avec filteredWorks comme argument.
-// updateGallery prend ce tableau de travaux filtrés et met à jour le contenu de l'élément gallery pour afficher seulement ces travaux.
+    // filter parcourt chaque élément de works.Pour chaque work, il vérifie si work.category est égal à category.id.Si cette condition est vraie, work est ajouté au nouveau tableau filteredWorks.Si la condition est fausse, work est ignoré. La fonction updateGallery est appelée avec filteredWorks comme argument.updateGallery prend ce tableau de travaux filtrés et met à jour le contenu de l'élément gallery pour afficher seulement ces travaux.
         });
     });
 }
 
 
-// 4. Fonction pour mettre à jour la galerie avec des travaux filtrés ******************
-
-
-// Fonction updateGallery :
-// Utilise la variable gallery existante pour mettre à jour le contenu de la galerie avec les travaux filtrés.
-// filteredWorks est une convention courante et descriptive pour nommer des variables qui contiennent des données filtrées.La méthode filter est utilisée pour créer un nouveau tableau contenant uniquement les éléments qui satisfont une condition spécifique.
+// 4. Fonction updateGallery pour mettre à jour la galerie avec des travaux filtrés *********************************************************************
 
 const updateGallery = (filteredWorks) => {
     gallery.innerHTML = ''; // Vider la galerie existante
@@ -134,32 +100,9 @@ const updateGallery = (filteredWorks) => {
         `;
         gallery.appendChild(workElement);
     });
-    
 }
 
-//     workElement.innerHTML définit le contenu HTML intérieur du div créé
-//     La chaîne de caractères entre les backticks (`) est un template literal qui permet d'inclure des expressions JavaScript en utilisant ${expression}.
-//     Il boucle sur chaque élément du tableau works.
-// Pour chaque élément work :
-// Il crée un nouvel élément div.
-// Il définit le contenu HTML de ce div pour inclure une image et une légende utilisant les propriétés imageUrl et title de l'élément work.
-// Il ajoute ce div au conteneur gallery dans le DOM.
-
-
-
-// 5. Appels des fonctions pour initialiser l'affichage ********************************
-
-
-// // Appeler la fonction getWorks pour récupérer les travaux et les afficher initialement
-// getWorks().then(() => {
-// // Appeler getFiltered pour générer le menu des catégories après avoir récupéré les travaux
-// getFiltered();
-// });
-
-
-
-
-
+//La méthode filter est utilisée pour créer un nouveau tableau contenant uniquement les éléments qui satisfont une condition spécifique.
 
 
 ///////////////////////////////////////////////////////////////////
@@ -172,10 +115,10 @@ console.log(localStorage.getItem("token"))
 
 
 // Après avoir reçu le token du serveur en réponse à la soumission du formulaire de connexion
-const token = "votre_token";
+// const token = "votre_token";
 
-// Stockage du token dans le localStorage
-localStorage.setItem("token", token);
+// // Stockage du token dans le localStorage
+// localStorage.setItem("token", token);
 
 // création de la navbar en JavaScript
 console.log("isLoggedIn:", isLoggedIn);
@@ -213,9 +156,9 @@ function createNavbar(isLoggedIn) {
   navbarContainer.appendChild(createNavbar(isLoggedIn));
 
 
-/////////////////////////////////////////////////
+//////////////////////////////////////////////////
 // Suppression des boutons filtre en mode admin //
-/////////////////////////////////////////////////
+//////////////////////////////////////////////////
 
     // Sélection de la section des boutons filtres
     const filtersSection = document.querySelector(".categories-menu");
@@ -229,9 +172,6 @@ function createNavbar(isLoggedIn) {
     // Ajout d'une marge entre le titre "Mes projets" et la galerie
     const maMargeProjetTitleGalerieAdmin = document.querySelector("#portfolio h2");
     maMargeProjetTitleGalerieAdmin.style.marginBottom = '65px'; 
-
-
-
 
 
 ///////////////////////////////////////////////////////////////////////
@@ -262,58 +202,58 @@ function createNavbar(isLoggedIn) {
     mesProjetsTitle.appendChild(editButton);
   }
 
-
-
-
-
-
-
 /////////////////////////////////////////////////////////////////////
-//    Création de la modale vue "Galerie" et vue "Ajout photos"    //  
+//    Création des modales vue "Galerie" et vue "Ajout photos"    //  
 /////////////////////////////////////////////////////////////////////
 
 // Sélection des éléments communs aux modales
-    const openModaleButton = document.getElementById("edit-button");
-    const addProjectButton = document.querySelector(".js-modale-projet");
+const openModaleButton = document.getElementById("edit-button");
+const addProjectButton = document.querySelector(".js-modale-projet");
+
 // Sélection des éléments spécifiques à la vue "Galerie photo"
-    const modale = document.getElementById("modale");
-    // const modaleTitleGallery = document.querySelector("ModaleTitleGallery");
-    const projectsContainer = document.querySelector(".js-admin-projet");
-    const closeModaleButton1 = document.querySelector(".js-modale1-close");
+const modale = document.getElementById("modale");
+// const modaleTitleGallery = document.querySelector("ModaleTitleGallery");
+const projectsContainer = document.querySelector(".js-admin-projet");
+const closeModaleButton1 = document.querySelector(".js-modale1-close");
+
 // Sélection des éléments spécifiques à la vue "Ajout photos"
-    const modaleAddProjet = document.getElementById("modaleAddProjet");
-    // const modaleTitleAdd = document.querySelector(".ModaleTitleAdd");
-    const closeModaleButton2 = document.querySelector(".js-modale2-close");
-    const addPhotoForm = document.querySelector("#addPhotoForm");
+const modaleAddProjet = document.getElementById("modaleAddProjet");
+// const modaleTitleAdd = document.querySelector(".ModaleTitleAdd");
+const closeModaleButton2 = document.querySelector(".js-modale2-close");
+const addPhotoFormElement = document.getElementById("addPhotoForm");
 
 
 // Fonction "openModale" pour ouvrir la modale vue "Galerie photo"
-    const openModale = () => {
-        modale.style.display = "flex";
-        modale.setAttribute("aria-hidden", "false");  // L'élément est visible et accessible aux utilisateurs de lecteurs d'écran.
-    };
+const openModale = () => {
+    modale.style.display = "flex";
+    modale.setAttribute("aria-hidden", "false");  // L'élément est visible et accessible aux utilisateurs de lecteurs d'écran.
+    console.log("Modale Galerie ouverte");
+};
 // Ecouteurs d'événements : ouverture de la modale vue "Galerie"
-    openModaleButton.addEventListener('click', openModale);
+openModaleButton.addEventListener('click', openModale);
 
 // Fonction "openAddPhotoModale" pour ouvrir la modale vue "Ajouter une photo"
-    const openAddPhotoModale = () => {
-        modale.style.display = "none";
-        modaleAddProjet.style.display = "flex";
-        modaleAddProjet.setAttribute("aria-hidden", "false"); 
-    };
+const openAddPhotoModale = () => {
+    modale.style.display = "none";
+    modaleAddProjet.style.display = "flex";
+    modaleAddProjet.setAttribute("aria-hidden", "false");
+    console.log("Modale Ajout photo ouverte"); 
+};
+
 // Écouteurs d'événements : ouverture de la modale vue "Ajout photos"
 addProjectButton.addEventListener("click", openAddPhotoModale);
 
 // Fonction "closeModale" pour fermer les modale
-    const closeModale = () => {
-        modale.style.display = "none";
-        modaleAddProjet.style.display = "none";
-        modale.setAttribute("aria-hidden", "true")
-        modaleAddProjet.setAttribute("aria-hidden", "true");
+const closeModale = () => {
+    modale.style.display = "none";
+    modaleAddProjet.style.display = "none";
+    modale.setAttribute("aria-hidden", "true")
+    modaleAddProjet.setAttribute("aria-hidden", "true");
         // addPhotoForm.style.display = "none"; // Réinitialise le formulaire pour la prochaine ouverture ====> Est ce que je dois le garder ? ou remplacer par une fonction reset du genre : 
         // function resetForms() {
-        //     addPhotoForm.reset();
-        // }
+        // addPhotoForm.reset();
+        //  }
+        //  resetForms();
     };
 
     
@@ -341,37 +281,44 @@ closeModaleButton2.addEventListener('click', (event) => {
         }
     });
 
-
+///////////////////////////////////////////////////
 // Gestion dynamique de la modale "Galerie photo" 
 //////////////////////////////////////////////////
 
 // Fonction "addPhotos": ajouter des photos dans la modale "Galerie photo"
     const addPhotos = (photos) => {
+        projectsContainer.innerHTML = ''; // Vider le conteneur avant d'ajouter les nouvelles photos
         photos.forEach(photo => {
             const photoElement = document.createElement("div");
             photoElement.innerHTML = `<img src="${photo.imageUrl}" alt="${photo.title}">
             <div class="delete-icon">&times;</div>`;
         
             // Création de l'icone delete en dynamique
-            const deleteIcon = document.createElement("i")
+            const deleteIcon = document.createElement("i");
             deleteIcon.classList.add("fas", "fa-trash-can");
             
 
-        // Fonction "deleteWork" pour supprimer un work via l'API
-        const deleteWork = async(photoId) => {
-            const response = await fetch (`http://localhost:5678/api/works/${photoId}`, {
-                method: "DELETE",
-                headers: {
-                    "Authorization": `Bearer ${localStorage.getItem("token")}`
-                    // Token d'identification
+            // Fonction "deleteWork" pour supprimer un work via l'API
+            const deleteWork = async(photoId) => {
+                const response = await fetch (`http://localhost:5678/api/works/${photoId}`, {
+                    method: "DELETE",
+                    headers: {
+                        "Authorization": `Bearer ${localStorage.getItem("token")}` // Token d'identification
                 }
-                });
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-            };
-        }
+            });
 
-            // Suppression des works coté serveur en cliquant sur l'icone Delete sans supprimer les données coté serveur
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            };
+        
+            // Création de la variable "index" pour mettre à jour la galerie avec le bon positionnement des photos supprimées
+            const index = photos.findIndex(work => work.id === parseInt(photoId));
+            if (index !== -1) {
+                photos.splice(index, 1);
+                createGallery(photos); // ou addPhotos ?
+            }
+        
+            // Suppression des works coté serveur en cliquant sur l'icone Delete
             deleteIcon.addEventListener("click", async () => {
                 const photoId = photo.id;
                 try {
@@ -386,7 +333,8 @@ closeModaleButton2.addEventListener('click', (event) => {
             // Définition des éléments deleIcon et photoElement
             photoElement.appendChild(deleteIcon);
             projectsContainer.appendChild(photoElement);
-            });
+            }; 
+        });
     };
  
 // Initialisation de la page
@@ -397,28 +345,69 @@ const initializePage = async () => {
 };
 initializePage();
 
+///////////////////////////////////////////////////
+// Gestion dynamique de la modale "Ajout photos" 
+//////////////////////////////////////////////////
 
+// 1. Sélection du bouton pour ajouter un projet
+const btnAddProject = document.querySelector(".js-modale2-projet");
+btnAddProject.addEventListener("click", addPhotoForm);
 
-/* // Fonction "uploadPhoto" pour envoyer une nouvelle photo via l'API
-const uploadPhoto : async (photoData) => {
-    const response = await fetch('http://localhost:5678/api/works', {
-        method: 'POST',
-        headers: {
-            'Authorization': `Bearer ${localStorage.getItem("token")}`
-        },
-        body: photoData
-    });
-    if(!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-    }
-    return response.json();
-};
-
-// Evènement de l'ajout de nouvelles photos
-addPhotoForm.addEventListener('submit', async (event) => {
+// 2. Fonction "addPhotoForm" pour ajouter un projet
+async function addPhotoForm(event) {
     event.preventDefault();
-}); */
 
+    const photoFile = document.getElementById('photoUrl').files[0];
+    const photoTitle = document.getElementById('photoTitle').value;
+    const photoCategory = document.getElementById('photoCategory').value;
 
-  
+    console.log('Photo File:', photoFile);
+    console.log('Photo Title:', photoTitle);
+    console.log('Photo Category:', photoCategory);
 
+if (photoTitle === "" || photoCategory === ""|| photoFile === undefined) {
+    alert("Merci de remplir tous les champs");
+    return;
+ } else if (photoCategory !== "1" && photoCategory !== "2" && photoCategory !== "3") {
+    alert("Merci de spécifier une catégorie de 1, 2 ou 3 valide");
+    return;
+    
+ } else {
+    // Changer la couleur du bouton valider
+    btnAddProject.style.backgroundColor = "#1d6154"
+
+    try { // Si toutes les vérifications sont réussies, création d'un objet FormData contenant les données du formulaire
+        const formData = new FormData();
+        formData.append('image', photoFile);
+        formData.append('title', photoTitle);
+        formData.append('category', photoCategory);
+
+        console.log('FormData object created:', formData);
+
+        const response = await fetch("http://localhost:5678/api/works", {
+            method : "POST",
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+            }, // Utilisation du token d'authentification depuis localStorage
+            body: formData,
+        });
+
+        if (response.ok) {
+            const responseData = await response.json();
+            console.log("Photo uploadée avec succès", responseData);
+            // Ajouter la nouvelle photo à la galerie
+            addPhotos(responseData);
+
+            // Réinitialiser le formulaire aprés soumission
+            addPhotoFormElement.reset();
+
+    
+        } else {
+            const errorData = await response.json();
+            console.log("Erreur lors de l'upload de la photo:", errorData);
+        }
+    } catch (error) {
+        console.error("Erreur lors de l'upload de la photo:", error);
+    };
+};
+};
