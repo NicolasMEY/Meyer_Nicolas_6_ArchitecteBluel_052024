@@ -3,26 +3,31 @@
 //  Récupération des travaux via l'API et création des filtres  //
 ///////////////////////////////////////////////////////////////////
 
-// 1. Initialisation des variables dans le scope globale ********************************************************
+// 1. Initialisation des variables ************************************************************************************
 
 const gallery = document.querySelector(".gallery");
 let works = [];
 
-// 2. Fonction getWorks pour récupérer et afficher les travaux (works) **********************************************************************
+// 2. Fonctions "getWorks" et "createGallery" pour récupérer et afficher les works et récréer une galerie ************************************************
 
 const getWorks = async () => {
+    try {
+
     const response = await fetch('http://localhost:5678/api/works');
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
-    // la variable works contiendra les données de la réponse de l'API au format JSON.
     works = await response.json(); 
     console.log('Works after fetching:', works); // Affiche les works récupérés 
-    createGallery(works);
-    // Appel de la fonction "createGallery pour afficher les travaux dans la galerie" avec les données works
-}
 
-// Variable "createGallery" permet de recréer une galerie
+    // Appel de la fonction "createGallery pour afficher les travaux dans la galerie" avec les données works
+    createGallery(works);
+} catch (error) {
+    console.error("Erreur lors de la récupération des travaux, error");
+}
+};
+    
+
 const createGallery = (works) => {
     gallery.innerHTML = '';  // Vider la galerie existante
     works.forEach (work => {
@@ -35,58 +40,12 @@ const createGallery = (works) => {
             </div> `;
         gallery.appendChild(workElement);
     });
-}
+};
 
-/////////// Variable createGallery à rappeler !!!!!!
-
-// 3. Fonction getFiltered pour récupérer les catégories et créer les boutons de filtres ****************************************************************************
-
-const getFiltered = async () => {
-    const response = await fetch ('http://localhost:5678/api/categories')
-    if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-    }
-    const categories = await response.json();
-    console.log('Categories:', categories);
-
-    // initialisation de la variables pour les boutons par catégories
-    const categoriesMenu = document.querySelector('.categories-menu');
-    // Initialisation de la variable pour le bouton "Tous les travaux"
-    const allCategoriesButton = document.createElement('button');
-    allCategoriesButton.textContent = 'Tous';
-    allCategoriesButton.id = 'all-categories';
-    categoriesMenu.appendChild(allCategoriesButton);
-
-    // Ajout un gestionnaire d'événements pour le bouton "Tous les travaux"
-    allCategoriesButton.addEventListener('click', () => {
-    // Appel de la fonction updateGallery avec tous les travaux
-    console.log('All button clicked', allCategoriesButton);
-    updateGallery(works);
-});
-
-    // création des des boutons filtres dans le DOM
-    categories.forEach(category => {
-        const categoryElement = document.createElement('div')
-        categoryElement.innerHTML = 
-        `<button id="${category.id}"> ${category.name}</button>`;
-        categoriesMenu.appendChild(categoryElement);
-    
-    // Ajout d'un gestionnaire d'événements pour filtrer la galerie par catégorie
-    categoryElement.addEventListener('click', () => {
-        // console.log('Category button clicked:', category.name); 
-        // console.log('Category ID:', category.id); 
-        // console.log('Works:', works); 
-        const filteredWorks = works.filter(work => work.categoryId === category.id);
-        updateGallery(filteredWorks);
-        console.log('Filtered works:', filteredWorks); 
-    
-    // filter parcourt chaque élément de works.Pour chaque work, il vérifie si work.category est égal à category.id.Si cette condition est vraie, work est ajouté au nouveau tableau filteredWorks.Si la condition est fausse, work est ignoré. La fonction updateGallery est appelée avec filteredWorks comme argument.updateGallery prend ce tableau de travaux filtrés et met à jour le contenu de l'élément gallery pour afficher seulement ces travaux.
-        });
-    });
-}
+getWorks();
 
 
-// 4. Fonction updateGallery pour mettre à jour la galerie avec des travaux filtrés *********************************************************************
+// 3. Fonction updateGallery pour mettre à jour la galerie avec des travaux filtrés *********************************************************************
 
 const updateGallery = (filteredWorks) => {
     gallery.innerHTML = ''; // Vider la galerie existante
@@ -102,23 +61,68 @@ const updateGallery = (filteredWorks) => {
     });
 }
 
-//La méthode filter est utilisée pour créer un nouveau tableau contenant uniquement les éléments qui satisfont une condition spécifique.
+// 4. Fonction getFiltered pour récupérer les catégories et créer les boutons de filtres ****************************************************************************
+
+const getFiltered = async () => {
+    const response = await fetch ('http://localhost:5678/api/categories')
+    if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    const categories = await response.json();
+    console.log('Categories:', categories);
+
+    // initialisation de la variables pour les boutons par catégories
+    const categoriesMenu = document.querySelector('.categories-menu');
+    // Initialisation de la variable pour le bouton "Tous les travaux"
+    const allCategoriesButton = document.createElement('button');
+
+    allCategoriesButton.textContent = 'Tous';
+    allCategoriesButton.id = 'all-categories';
+    categoriesMenu.appendChild(allCategoriesButton);
+
+    // Ajout un gestionnaire d'événements pour le bouton "Tous les travaux"
+    allCategoriesButton.addEventListener('click', () => {
+    // Appel de la fonction updateGallery avec tous les travaux
+    console.log('All button clicked', allCategoriesButton);
+
+    updateGallery(works);
+});
 
 
-///////////////////////////////////////////////////////////////////
-// Création de la navbar dynamique au niveau de la page d'accueil//
-///////////////////////////////////////////////////////////////////
+    // création des des boutons filtres dans le DOM
+    categories.forEach(category => {
+        const categoryElement = document.createElement('div')
+        categoryElement.innerHTML = 
+        `<button id="${category.id}"> ${category.name}</button>`;
+        categoriesMenu.appendChild(categoryElement);
+    
+    // Ajout d'un gestionnaire d'événements pour filtrer la galerie par catégorie
+    categoryElement.addEventListener('click', () => {
+        const filteredWorks = works.filter(work => work.categoryId === category.id);
+        updateGallery(filteredWorks);
+        console.log('Filtered works:', filteredWorks); 
+    
+    // filter parcourt chaque élément de works.Pour chaque work, il vérifie si work.category est égal à category.id. Si cette condition est vraie, work est ajouté au nouveau tableau filteredWorks. Si la condition est fausse, work est ignoré. La fonction updateGallery est appelée avec filteredWorks comme argument. updateGallery prend ce tableau de travaux filtrés et met à jour le contenu de l'élément gallery pour afficher seulement ces travaux.
+        });
+    });
+}
+getFiltered();
+
+
+
+////////////////////////////////////////////////////////////////////
+// Création de la navbar dynamique au niveau de la page d'accueil //
+////////////////////////////////////////////////////////////////////
+
 
 // Vérifier si l'utilisateur est connecté , en vérifiant la présence du token dans le localStorage
 const isLoggedIn = localStorage.getItem("token") !== null;
-console.log(localStorage.getItem("token"))
-
-
-// Après avoir reçu le token du serveur en réponse à la soumission du formulaire de connexion
-// const token = "votre_token";
-
+// const token =  localStorage.getItem("token");
 // // Stockage du token dans le localStorage
 // localStorage.setItem("token", token);
+console.log("Token enregistré dans le localStorage:",localStorage.getItem("token"))
+
+
 
 // création de la navbar en JavaScript
 console.log("isLoggedIn:", isLoggedIn);
@@ -155,6 +159,29 @@ function createNavbar(isLoggedIn) {
   // Créer la navbar et l'ajouter au conteneur
   navbarContainer.appendChild(createNavbar(isLoggedIn));
 
+//////////////////////////////////////////////////////////////
+// Modification du bouton "login" en "logout" en mode admin //
+//////////////////////////////////////////////////////////////
+
+const authLink = document.getElementById("authLink");
+
+if (isLoggedIn) {
+    authLink.textContent = "logout";
+    authLink.href = "#"; //Empêche la navigation lors du clic sur logout
+} else {
+    authLink.textContent = "login";
+    authLink.href = "file:///Users/nicolasmeyer/Desktop/Meyer_Nicolas_6_ArchitecteBluel_052024%20/FrontEnd/login.html";
+}
+
+authLink.addEventListener("click", (event) => {
+    if (isLoggedIn) {
+        event.preventDefault();
+        localStorage.removeItem("token");
+        authLink.textContent = "login";
+        authLink.href = "file:///Users/nicolasmeyer/Desktop/Meyer_Nicolas_6_ArchitecteBluel_052024%20/FrontEnd/login.html"
+        location.reload();
+    }
+});
 
 //////////////////////////////////////////////////
 // Suppression des boutons filtre en mode admin //
@@ -167,11 +194,17 @@ function createNavbar(isLoggedIn) {
     if (isLoggedIn) {
         // Si l'utilisateur est connecté, masquer la section des boutons filtres
         filtersSection.style.display = 'none';
-    }
+    
 
     // Ajout d'une marge entre le titre "Mes projets" et la galerie
     const maMargeProjetTitleGalerieAdmin = document.querySelector("#portfolio h2");
     maMargeProjetTitleGalerieAdmin.style.marginBottom = '65px'; 
+
+} else {
+    // Si l'utilisateur n'est pas connecté, s'assurer que la marge est supprimée
+    const maMargeProjetTitleGalerieAdmin = document.querySelector("#portfolio h2");
+    maMargeProjetTitleGalerieAdmin.style.marginBottom = '0';
+}
 
 
 ///////////////////////////////////////////////////////////////////////
@@ -249,11 +282,6 @@ const closeModale = () => {
     modaleAddProjet.style.display = "none";
     modale.setAttribute("aria-hidden", "true")
     modaleAddProjet.setAttribute("aria-hidden", "true");
-        // addPhotoForm.style.display = "none"; // Réinitialise le formulaire pour la prochaine ouverture ====> Est ce que je dois le garder ? ou remplacer par une fonction reset du genre : 
-        // function resetForms() {
-        // addPhotoForm.reset();
-        //  }
-        //  resetForms();
     };
 
     
@@ -285,13 +313,15 @@ closeModaleButton2.addEventListener('click', (event) => {
 // Gestion dynamique de la modale "Galerie photo" 
 //////////////////////////////////////////////////
 
-// Fonction "addPhotos": ajouter des photos dans la modale "Galerie photo"
+// 1. Fonction "addPhotos": ajouter des photos dans la modale "Galerie photo"
+
     const addPhotos = (photos) => {
         projectsContainer.innerHTML = ''; // Vider le conteneur avant d'ajouter les nouvelles photos
         photos.forEach(photo => {
             const photoElement = document.createElement("div");
             photoElement.innerHTML = `<img src="${photo.imageUrl}" alt="${photo.title}">
             <div class="delete-icon">&times;</div>`;
+
         
             // Création de l'icone delete en dynamique
             const deleteIcon = document.createElement("i");
@@ -315,45 +345,87 @@ closeModaleButton2.addEventListener('click', (event) => {
             const index = photos.findIndex(work => work.id === parseInt(photoId));
             if (index !== -1) {
                 photos.splice(index, 1);
-                createGallery(photos); // ou addPhotos ?
+                createGallery(photos);
             }
         
-            // Suppression des works coté serveur en cliquant sur l'icone Delete
-            deleteIcon.addEventListener("click", async () => {
-                const photoId = photo.id;
-                try {
-                    await deleteWork(photoId);
-                    console.log(`Le travail avec l'ID ${photoId} a été supprimé avec succès.`);
-            projectsContainer.removeChild(photoElement); // Supprimez également l'élément HTML de la galerie
-            } catch (error) {
-                console.error(error.message);
-                }
-            });
-
-            // Définition des éléments deleIcon et photoElement
-            photoElement.appendChild(deleteIcon);
-            projectsContainer.appendChild(photoElement);
             }; 
+// Suppression des works coté serveur en cliquant sur l'icone Delete
+deleteIcon.addEventListener("click", async () => {
+    const photoId = photo.id;
+    try {
+        await deleteWork(photoId);
+        console.log(`Le travail avec l'ID ${photoId} a été supprimé avec succès.`);
+projectsContainer.removeChild(photoElement); // Supprime également l'élément HTML de la galerie
+} catch (error) {
+    console.error(error.message);
+    }
+});
+              // Définition des éléments deleIcon et photoElement
+              photoElement.appendChild(deleteIcon);
+              projectsContainer.appendChild(photoElement);
         });
     };
  
 // Initialisation de la page
 const initializePage = async () => {
-    await getWorks();
-    await getFiltered();
     addPhotos(works); // Appeler addPhotos après avoir récupéré les travaux
 };
 initializePage();
+
 
 ///////////////////////////////////////////////////
 // Gestion dynamique de la modale "Ajout photos" 
 //////////////////////////////////////////////////
 
+
 // 1. Sélection du bouton pour ajouter un projet
 const btnAddProject = document.querySelector(".js-modale2-projet");
 btnAddProject.addEventListener("click", addPhotoForm);
 
-// 2. Fonction "addPhotoForm" pour ajouter un projet
+const photoTitleInput = document.getElementById('photoTitle');
+const photoCategoryInput = document.getElementById('photoCategory');
+
+
+// Ajout des écouteurs d'événements aux champs "titre" et "catégorie"
+photoTitleInput.addEventListener('input', checkInputs);
+photoCategoryInput.addEventListener('input', checkInputs);
+
+// Fonction pour vérifier les champs et mettre à jour la couleur du bouton en fonction
+function checkInputs() {
+    const photoTitle = photoTitleInput.value.trim();
+    const photoCategory = photoCategoryInput.value.trim();
+
+    if (photoTitle !== "" && (photoCategory === "1" || photoCategory === "2" || photoCategory === "3")) {
+        btnAddProject.style.backgroundColor = "#1d6154";
+    } else {
+        btnAddProject.style.backgroundColor = ""; // Remettre à la couleur par défaut si les conditions ne sont pas remplies
+    }
+}
+
+// 2. Chargement de l'image
+
+const photoInput = document.getElementById('photoUrl');
+const photoPreview = document.getElementById('photoPreview');
+
+// Ajout d'un écouteur d'événement sur le changement de l'input de fichier
+photoInput.addEventListener('change', function(event) {
+    console.log("Contenu de photoInput :", photoInput.fileList);
+    // Vérifier si un fichier a été sélectionné avant de tenter de le lire
+    if (photoInput.files && photoInput.files[0]) {
+      const reader = new FileReader();
+  
+      // Lorsque le lecteur a fini de lire le fichier, Cette propriété permet de définir une fonction de rappel qui sera exécutée lorsque le fichier aura été complètement lu.
+      reader.onload = function(e) {
+        photoPreview.src = e.target.result; // Définir l'aperçu de l'image avec les données du fichier, contient le contenu du fichier lu, qui est une URL de données dans ce cas.
+        photoPreview.style.display = 'block'; // Afficher l'aperçu de l'image
+      };
+  
+      // Lire le fichier en tant que URL de données
+      reader.readAsDataURL(photoInput.files[0]);
+    }
+  }); 
+
+// 3. Fonction "addPhotoForm" pour ajouter un projet
 async function addPhotoForm(event) {
     event.preventDefault();
 
@@ -369,12 +441,9 @@ if (photoTitle === "" || photoCategory === ""|| photoFile === undefined) {
     alert("Merci de remplir tous les champs");
     return;
  } else if (photoCategory !== "1" && photoCategory !== "2" && photoCategory !== "3") {
-    alert("Merci de spécifier une catégorie de 1, 2 ou 3 valide");
+    alert("Merci de spécifier une catégorie : 1, 2 ou 3");
     return;
-    
  } else {
-    // Changer la couleur du bouton valider
-    btnAddProject.style.backgroundColor = "#1d6154"
 
     try { // Si toutes les vérifications sont réussies, création d'un objet FormData contenant les données du formulaire
         const formData = new FormData();
@@ -394,9 +463,12 @@ if (photoTitle === "" || photoCategory === ""|| photoFile === undefined) {
 
         if (response.ok) {
             const responseData = await response.json();
+            works.push(responseData);
+            // Ajout de responseData à la fin du tableau works
             console.log("Photo uploadée avec succès", responseData);
             // Ajouter la nouvelle photo à la galerie
-            addPhotos(responseData);
+            addPhotos(works);
+            createGallery(works);
 
             // Réinitialiser le formulaire aprés soumission
             addPhotoFormElement.reset();
@@ -411,3 +483,17 @@ if (photoTitle === "" || photoCategory === ""|| photoFile === undefined) {
     };
 };
 };
+
+
+
+// Retour à la page d'accueil au clic de la flêche returnLink
+
+const returnLink = document.querySelector(".js-modale-return");
+
+returnLink.addEventListener('click', function(event) {
+    event.preventDefault();
+
+    console.log('Flèche de retour cliquée');
+
+    window.location.href = 'file:///Users/nicolasmeyer/Desktop/Meyer_Nicolas_6_ArchitecteBluel_052024%20/FrontEnd/index.html'; 
+});
