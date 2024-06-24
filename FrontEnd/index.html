@@ -55,6 +55,8 @@
             <input type="file" id="photoUrl" name="photoUrl" accept="image/png, image/gif, image/jpeg" class="js-image" required >
             <img id="photoPreview" src="#" alt="Photo Preview">
             <!-- <img> ajoutée pour visualiser l'aperçu de l'image téléchargée -->
+            <p> jpg, png : 4mo max</p>
+
           </div>
           <div class="form-group-title">
             <label for="photoTitle">Titre</label>
@@ -62,7 +64,9 @@
           </div>
           <div class="form-group-category">
             <label for="photoCategory">Catégorie</label>
-            <input type="text" id="photoCategory" name="photoCategory" class="js-category" required>
+            <select id="photoCategory" name="photoCategory" class="js-category" required>
+              <option value="" selected ></option>
+            </select>
           </div>
         </form>
         <hr class="separator"></hr>
@@ -82,7 +86,7 @@
         <ul>
           <li>projets</li>
           <li>contact</li>
-          <li><a href="file:///Users/nicolasmeyer/Desktop/Meyer_Nicolas_6_ArchitecteBluel_052024%20/FrontEnd/login.html" id="authLink">Login</a></li>
+          <li><a href="login.html" id="authLink">Login</a></li>
           <li><img src="./assets/icons/instagram.png" alt="Instagram" /></li>
         </ul>
       </nav>

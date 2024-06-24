@@ -563,8 +563,7 @@ footer nav ul {
   margin-top: 20px;
 }
 
-.form-group-photo::after {
-  content: "jpg, png : 4mo max";
+.form-group-photo p {
   position: absolute;
   top: 285px;
   font-size: 10px;
@@ -572,7 +571,8 @@ footer nav ul {
 
 #photoPreview {
   display: none;
-  max-width: 37%;
+  max-width: 100%;
+  max-height: 100%;
   z-index: 2;
   position: absolute;
 }
@@ -605,6 +605,13 @@ footer nav ul {
 }
 .form-group-category label {
   margin: 3em 0 1em 0;
+}
+
+.js-category {
+  height: 50px;
+  font-size: 1.2em;
+  border: none;
+  box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
 }
 
 #modaleAddProjet .separator {

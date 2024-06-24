@@ -38,6 +38,7 @@ form.addEventListener("submit", async (event) => {
 
     } catch (error) {
       console.error("Erreur lors de la connexion :", error);
+      // Gérer l'erreur
     }
   });
 
