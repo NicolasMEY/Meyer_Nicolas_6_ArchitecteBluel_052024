@@ -42,11 +42,7 @@ form.addEventListener("submit", async (event) => {
     }
   });
 
-//   try {
-//     // Bloc de code à tester pour des erreurs
-//   } catch (error) {
-//     // Bloc de code à exécuter si une erreur se produit
-//   }
+
 
 
 

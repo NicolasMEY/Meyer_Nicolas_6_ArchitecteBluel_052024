@@ -29,7 +29,54 @@ const getWorks = async () => {
 }
 };
 
-// 3. Fonctions "createGallery" pour afficher les works et récréer une galerie 
+
+// 3. Fonctions "getCategories" pour récupérer les catégories
+
+const getCategories = async () => {
+    const response = await fetch('http://localhost:5678/api/categories')
+    if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    categories = await response.json();
+    console.log('Categories:', categories);
+    // Appel de selectCategories après avoir récupéré les catégories
+    selectCategories();
+}
+
+// 3.2 Fonctions "selectCategories" pour afficher les catégories dans l'input de la modale 2
+const selectCategories = () => {
+    const photoCategory = document.getElementById('photoCategory');
+    photoCategory.innerHTML = '';
+
+// 3.3 Création de l'option "choisissez une catégorie"
+const defaultOption = document.createElement('option');
+defaultOption.value = '';
+defaultOption.textContent = 'Choisissez une catégorie';
+photoCategory.appendChild(defaultOption);
+
+// 3.4 Ajout des autres catégories récupérées vie l'API
+    categories.forEach(category => {
+        const option = document.createElement('option');
+        option.value = category.id;
+        option.textContent = category.name;
+        photoCategory.appendChild(option);
+    });
+}
+
+// Sélection de l'élément select
+const photoCategorySelect = document.getElementById('photoCategory');
+
+// Écouter l'événement de changement de valeur
+photoCategorySelect.addEventListener('change', function() {
+    if (this.value !== '') {
+        this.classList.add('open'); // Ajouter la classe 'open' lorsque le select est ouvert
+    } else {
+        this.classList.remove('open'); // Retirer la classe 'open' lorsque le select est fermé
+    }
+});
+getCategories();
+
+// 4. Fonctions "createGallery" pour afficher les works et récréer une galerie 
 
 const createGallery = (works) => {
     gallery.innerHTML = '';  // Vider la galerie existante
@@ -46,42 +93,6 @@ const createGallery = (works) => {
 };
 
 getWorks();
-
-// 3. Fonctions "getCategories" pour récupérer les catégories
-
-const getCategories = async () => {
-    const response = await fetch('http://localhost:5678/api/categories')
-    if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-    }
-    categories = await response.json();
-    console.log('Categories:', categories);
-    // Appel de selectCategories après avoir récupéré les catégories
-    selectCategories();
-}
-
-// 4. Fonctions "selectCategories" pour afficher les catégories dans l'input
-const selectCategories = () => {
-    const photoCategory = document.getElementById('photoCategory');
-    photoCategory.innerHTML = '';
-
-// Création de l'option "choisissez une catégorie"
-const defaultOption = document.createElement('option');
-defaultOption.value = '';
-defaultOption.textContent = 'Choisissez une catégorie';
-photoCategory.appendChild(defaultOption);
-
-// Ajout des autres catégories récupérées vie l'API
-    categories.forEach(category => {
-        const option = document.createElement('option');
-        option.value = category.id;
-        option.textContent = category.name;
-        photoCategory.appendChild(option);
-    });
-}
-
-getCategories();
-
 
 // 5. Fonction updateGallery pour mettre à jour la galerie avec des travaux filtrés 
 
@@ -149,10 +160,15 @@ getFiltered();
 // CREATION DE LA NAVBAR EN DYNAMIQUE AU NIVEAU DE LA PAGE D'ACCUEIL
 //////////////////////////////////////////////////////////////////////
 
-
 // Vérifier si l'utilisateur est connecté , en vérifiant la présence du token dans le localStorage
 const isLoggedIn = localStorage.getItem("token") !== null;
+//const token =  localStorage.getItem("token");
+
+// // Stockage du token dans le localStorage
+//localStorage.setItem("token", token);
 console.log("Token enregistré dans le localStorage:",localStorage.getItem("token"))
+
+
 
 // création de la navbar en JavaScript
 console.log("isLoggedIn:", isLoggedIn);
@@ -337,22 +353,26 @@ modale.addEventListener('click', (event) => {
 });
 
 
-// Écouteurs d'événements : fermeture au bouton de la modale 2 vue "Ajout photos"
-closeModaleButton2.addEventListener('click', (event) => {
-    event.preventDefault();
-    closeModale();
-    // Réinitialiser le formulaire lors de la fermeture de la modale 2
+// Réinitialiser le formulaire lors de la fermeture de la modale 2 avec la fonction resetFormAndUI
+function resetFormAndUI() {
     addPhotoFormElement.reset(); 
     photoPreview.src = '#';
     photoPreview.style.display = 'none';
     document.querySelector('.form-group-photo i') .style.display = 'block'; // Masquer l'icone de l'appareil photo
     document.querySelector('.form-group-photo label') .style.display = 'flex';// Masquer le texte "Ajouter une photo"
     document.querySelector('.form-group-photo p') .style.display = 'block';// Supprimer la bordure de la zone de l'input
+    }
+// Écouteurs d'événements : fermeture au bouton de la modale 2 vue "Ajout photos"
+closeModaleButton2.addEventListener('click', (event) => {
+    event.preventDefault();
+    closeModale();
+    resetFormAndUI(); // Appel de la fonction de réinitialisation
 });
 // Écouteurs d'événements pour la fermeture lorsque l'utilisateur clique en dehors du contenu de la modale.
     modaleAddProjet.addEventListener('click', (event) => {
         if (event.target === modaleAddProjet) {
             closeModale();
+            resetFormAndUI(); // Appel de la fonction de réinitialisation
         }
     });
 
@@ -367,11 +387,13 @@ closeModaleButton2.addEventListener('click', (event) => {
 
     const addPhotos = (photos) => {
         projectsContainer.innerHTML = ''; // Vider le conteneur avant d'ajouter les nouvelles photos
+
         photos.forEach(photo => {
             const photoElement = document.createElement("div");
-            photoElement.innerHTML = `<img src="${photo.imageUrl}" alt="${photo.title}">
+            photoElement.innerHTML = `<img src="${photo.imageUrl}" alt="${photo.title}" class="photo-item">
             <div class="delete-icon">&times;</div>`;
 
+            projectsContainer.appendChild(photoElement);
         
             // Création de l'icone delete en dynamique
             const deleteIcon = document.createElement("i");
@@ -387,7 +409,7 @@ closeModaleButton2.addEventListener('click', (event) => {
             });
 
             if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
+                throw new Error(`La suppression de la photo a échoué -  status: ${response.status}`);
             };
         
             // Création de la variable "index" pour mettre à jour la galerie avec le bon positionnement des photos supprimées
@@ -416,11 +438,11 @@ projectsContainer.removeChild(photoElement); // Supprime également l'élément 
         });
     };
  
-// Initialisation de la page
-const initializePage = async () => {
-    addPhotos(works); // Appeler addPhotos après avoir récupéré les travaux
-};
-initializePage();
+// // Initialisation de la page
+// const initializePage = async () => {
+//     addPhotos(works); // Appeler addPhotos après avoir récupéré les travaux
+// };
+// initializePage();
 
 
 
@@ -450,6 +472,12 @@ function checkInputs() {
 
     if (photoTitle !== "" && (photoCategory === "1" || photoCategory === "2" || photoCategory === "3")) {
         btnAddProject.style.backgroundColor = "#1d6154";
+        btnAddProject.addEventListener('mouseover', function() {
+                btnAddProject.style.backgroundColor = "#0e2f28"; // Changer la couleur de fond en noir au survol
+        });
+        btnAddProject.addEventListener('mouseleave', function() {
+                btnAddProject.style.backgroundColor = "#1d6154"; // Revenir à la couleur intitiale sans survol
+        });
     } else {
         btnAddProject.style.backgroundColor = "";
     }
@@ -471,7 +499,6 @@ photoInput.addEventListener('change', function(event) {
       reader.onload = function(e) {
         photoPreview.src = e.target.result; // Aperçu de l'image avec les données du fichier, contient le contenu du fichier lu, qui est une URL de données dans ce cas.
         photoPreview.style.display = 'block'; // Afficher l'aperçu de l'image
-
         // Supprimer i, label et p lors du chargement de l'image
         document.querySelector(".form-group-photo i").style.display = 'none'; // Masquer l'icône de l'appareil photo
         document.querySelector(".form-group-photo label").style.display = 'none';// Masquer le texte "Ajouter une photo"
@@ -528,6 +555,7 @@ if (photoTitle === "" || photoCategory === ""|| photoFile === undefined) {
             // Ajout de responseData à la fin du tableau works
             console.log("Photo uploadée avec succès", responseData);
             // Ajouter la nouvelle photo à la galerie
+
             addPhotos(works);
             createGallery(works);
 

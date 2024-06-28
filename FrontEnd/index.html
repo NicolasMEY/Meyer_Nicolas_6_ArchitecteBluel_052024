@@ -56,7 +56,6 @@
             <img id="photoPreview" src="#" alt="Photo Preview">
             <!-- <img> ajoutée pour visualiser l'aperçu de l'image téléchargée -->
             <p> jpg, png : 4mo max</p>
-
           </div>
           <div class="form-group-title">
             <label for="photoTitle">Titre</label>
@@ -86,7 +85,7 @@
         <ul>
           <li>projets</li>
           <li>contact</li>
-          <li><a href="login.html" id="authLink">Login</a></li>
+          <li><a href="login.html" id="authLink">login</a></li>
           <li><img src="./assets/icons/instagram.png" alt="Instagram" /></li>
         </ul>
       </nav>
@@ -137,17 +136,22 @@
           <input type="email" name="email" id="email" />
           <label for="message">Message</label>
           <textarea name="message" id="message" cols="30" rows="10"></textarea>
-          <input type="submit" value="Envoyer" />
+          <button class="send-button">
+            Envoyer
+          </button>
+          
         </form>
       </section>
     </main>
 
     <footer>
+      <div class="footer-container">
       <nav>
         <ul>
-          <li>Mentions Légales</li>
+          <li>Mentions légales</li>
         </ul>
       </nav>
+    </div>
     </footer>
   </body>
 </html>

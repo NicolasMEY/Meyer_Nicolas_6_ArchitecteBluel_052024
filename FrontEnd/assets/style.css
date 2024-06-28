@@ -174,10 +174,11 @@ nav ul {
 nav li {
   padding: 0 10px;
   font-size: 1.2em;
+  cursor: pointer;
 }
 
 li:hover {
-  color: #b1663c;
+  font-weight: bold;
 }
 
 nav li a {
@@ -254,25 +255,53 @@ nav li a {
   box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
 }
 
-input[type="submit"] {
+.send-button {
   font-family: "Syne";
   font-weight: 700;
   color: white;
   background-color: #1d6154;
   margin: 2em auto;
   width: 180px;
+  height: 36px;
   text-align: center;
   border-radius: 60px;
 }
 
+.send-button:hover {
+  background-color: #0e2f28;
+  color: white;
+  transition: transform 0.3s ease;
+  transform: scale(1.1);
+}
+
 footer {
+  width: 100vw;
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+  margin-top: auto;
   background-color: white;
   height: 7vh;
 }
+
+.footer-container {
+  max-width: 1140px;
+  margin: auto;
+}
+
 footer nav ul {
   display: flex;
   justify-content: flex-end;
+
   margin: 2em;
+}
+
+footer li {
+  color: gray;
+  position: absolute;
+  right: 40px;
+  top: 50%;
+  transform: translateY(-50%);
 }
 
 /* ** Boutons pour les filtres ** */
@@ -304,7 +333,7 @@ footer nav ul {
   transition: transform 0.3s ease;
   transform: scale(1.05);
   color: white;
-  background-color: #1d6154;
+  background-color: #0e2f28;
 }
 
 /* ** Login ** */
@@ -496,6 +525,13 @@ footer nav ul {
   cursor: pointer;
 }
 
+.add-photo-btn:hover {
+  background-color: #0e2f28;
+  color: white;
+  transition: transform 0.3s ease;
+  transform: scale(1.1);
+}
+
 .modale-wrapper .close-btn {
   position: absolute;
   color: black;
@@ -525,6 +561,7 @@ footer nav ul {
 
 .form-group-photo {
   display: flex;
+  position: relative;
   flex-direction: column;
   justify-content: center;
   align-items: center;
@@ -565,7 +602,7 @@ footer nav ul {
 
 .form-group-photo p {
   position: absolute;
-  top: 285px;
+  top: 150px;
   font-size: 10px;
 }
 
@@ -573,7 +610,6 @@ footer nav ul {
   display: none;
   max-width: 100%;
   max-height: 100%;
-  z-index: 2;
   position: absolute;
 }
 
@@ -612,6 +648,7 @@ footer nav ul {
   font-size: 1.2em;
   border: none;
   box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+  background-color: white;
 }
 
 #modaleAddProjet .separator {
@@ -634,3 +671,16 @@ footer nav ul {
   text-align: center;
   cursor: pointer;
 }
+
+#modaleAddProjet .add-photo-btn:hover {
+  background-color: #0e2f28;
+  color: white;
+  transition: transform 0.3s ease;
+  transform: scale(1.1);
+}
+
+/* .photo-item {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+} */
