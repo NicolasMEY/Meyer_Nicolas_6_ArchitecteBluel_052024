@@ -5,6 +5,18 @@ const password = document.querySelector("#password");
 console.log(password, email, form);
 
 
+// Ajout d'un écouteur d'événements sur le champ email pour la validation en temps réel
+/*email.addEventListener("input", () => {
+   if (!isValidEmail(email.value)) {
+    errorMessage.textContent = "Adresse email invalide.";
+    errorMessage.style.display = "flex";
+  } else {
+     errorMessage.textContent = "";
+    errorMessage.style.display = "none";
+  }
+ });*/
+
+
 // 2. Ajout d'un écouteur d'événements sur le formulaire et prévention de l'action par défaut :
 
 form.addEventListener("submit", async (event) => {
@@ -33,7 +45,11 @@ form.addEventListener("submit", async (event) => {
       } else {
         document.getElementById("error-message").textContent = "Informations d'identification incorrectes.";
         document.getElementById("error-message").style = "display: flex;justify-content: center; margin-bottom: 35px; color: red; font-weight: bold;";
-      }
+        /*setTimeout(() => {
+          document.getElementById("error-message").style = "display: none;";
+        }, 5000);*/
+        }
+      
 // 5. Gestion des erreurs :
 
     } catch (error) {

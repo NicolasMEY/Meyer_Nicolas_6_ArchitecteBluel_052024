@@ -217,13 +217,17 @@ nav li a {
   width: 100%;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
+  grid-auto-rows: 403px; /* Définit une hauteur pour chaque ligne */
   grid-column-gap: 20px;
   grid-row-gap: 20px;
 }
 
 .gallery img {
   width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
+
 #contact {
   width: 50%;
   margin: auto;
@@ -470,6 +474,7 @@ footer li {
 .modale-wrapper .galleryMod {
   display: grid;
   grid-template-columns: 6fr 6fr 6fr 6fr 6fr;
+  grid-auto-rows: 120px; /* Définit une hauteur pour chaque ligne */
   row-gap: 20px;
   column-gap: 0px;
   width: 80%;
@@ -485,7 +490,8 @@ footer li {
 
 .modale-wrapper .galleryMod img {
   width: 80%;
-  height: auto;
+  height: 100%;
+  object-fit: cover;
 }
 
 .delete-icon {
@@ -678,9 +684,3 @@ footer li {
   transition: transform 0.3s ease;
   transform: scale(1.1);
 }
-
-/* .photo-item {
-  width: 100%;
-  height: auto;
-  object-fit: cover;
-} */

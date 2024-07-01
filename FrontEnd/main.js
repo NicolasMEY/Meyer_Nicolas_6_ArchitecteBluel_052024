@@ -456,7 +456,9 @@ projectsContainer.removeChild(photoElement); // Supprime également l'élément 
 // Sélection de la variable btnAddProject pour ajouter un projet + écoute de l'évènement au clic
 const btnAddProject = document.querySelector(".js-modale2-projet");
 
+
 btnAddProject.addEventListener("click", addPhotoForm);
+
 
 // Sélection des variables photoTitleInput et CategoryInput + leurs écoutes à l'input
 const photoTitleInput = document.getElementById('photoTitle');
@@ -464,6 +466,7 @@ const photoCategoryInput = document.getElementById('photoCategory');
 
 photoTitleInput.addEventListener('input', checkInputs);
 photoCategoryInput.addEventListener('input', checkInputs);
+
 
 // Fonction checkInput pour vérifier les champs et mettre à jour la couleur du bouton si tout est ok
 function checkInputs() {
@@ -478,8 +481,11 @@ function checkInputs() {
         btnAddProject.addEventListener('mouseleave', function() {
                 btnAddProject.style.backgroundColor = "#1d6154"; // Revenir à la couleur intitiale sans survol
         });
+        document.getElementById("error-message2").style = "display: none;";
     } else {
         btnAddProject.style.backgroundColor = "";
+            document.getElementById("error-message2").textContent = "Veuillez remplir tous les champs.";
+            document.getElementById("error-message2").style = "display: flex;justify-content: center; color: red; font-weight: bold; padding-top: 20px; margin-bottom: -15px;";
     }
 }
 
@@ -524,15 +530,17 @@ async function addPhotoForm(event) {
     console.log('Photo Title:', photoTitle);
     console.log('Photo Category:', photoCategory);
 
-if (photoTitle === "" || photoCategory === ""|| photoFile === undefined) {
-    alert("Merci de remplir tous les champs");
+/*if (photoTitle === "" || photoCategory === ""|| photoFile === undefined) {
+    errorMessage.textContent = "Merci de remplir tous les champs.";
+    errorMessage.style.display = 'block'; // Afficher le message d'erreur
     return;
  } else if (photoCategory !== "1" && photoCategory !== "2" && photoCategory !== "3") {
-    alert("Merci de spécifier une catégorie : 1, 2 ou 3");
+    errorMessage.textContent = "Merci de spécifier une catégorie : 1, 2 ou 3.";
+    errorMessage.style.display = 'block'; // Afficher le message d'erreur
     return;
  } else {
-
-    // Si toutes les vérifications sont réussies, création d'un objet FormData contenant les données du formulaire
+    errorMessage.style.display = 'none'; // Masquer le message d'erreur en cas de succès
+    // Si toutes les vérifications sont réussies, création d'un objet FormData contenant les données du formulaire*/
     try { 
         const formData = new FormData();
         formData.append('image', photoFile);
@@ -555,9 +563,9 @@ if (photoTitle === "" || photoCategory === ""|| photoFile === undefined) {
             // Ajout de responseData à la fin du tableau works
             console.log("Photo uploadée avec succès", responseData);
             // Ajouter la nouvelle photo à la galerie
-
             addPhotos(works);
             createGallery(works);
+
 
             // Réinitialiser le formulaire aprés soumission
             addPhotoFormElement.reset();
@@ -565,12 +573,16 @@ if (photoTitle === "" || photoCategory === ""|| photoFile === undefined) {
         } else {
             const errorData = await response.json();
             console.log("Erreur lors de l'upload de la photo:", errorData);
+            errorMessage.textContent = "Erreur lors de l'upload de la photo.";
+            errorMessage.style.display = 'block';
         }
     } catch (error) {
         console.error("Erreur lors de l'upload de la photo:", error);
+        errorMessage.textContent = "Une erreur est survenue lors de l'upload de la photo.";
+        errorMessage.style.display = 'block';
     };
 };
-};
+
 
 
 // 4. Retour à la modale 1 au clic de la flêche returnLink de la modale 2
@@ -592,3 +604,5 @@ returnLink.addEventListener('click', function(event) {
     modale.style.display = 'flex';
     modale.setAttribute("aria-hidden", "false"); 
 });
+
+
